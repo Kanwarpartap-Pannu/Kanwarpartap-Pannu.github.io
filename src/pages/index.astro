@@ -1,16 +1,118 @@
+
+
 ---
+import Layout from "../layouts/Layout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { getCollection } from "astro:content";
+
+const projects = (await getCollection("projects"))
+  .filter((project) => project.data.featured)
+  .sort(
+    (a, b) =>
+      b.data.date.getTime() - a.data.date.getTime()
+  );
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Computer engineering portfolio specializing in digital design, computer architecture, and AI hardware acceleration."
+    />
+    <title>Engineering Portfolio</title>
+    <style is:global>
+      @import "tailwindcss";
+    </style>
+  </head>
+
+  <body class="min-h-screen bg-[#0b1120] text-slate-100 antialiased">
+    <header class="border-b border-slate-800">
+      <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+        <a href="/" class="text-xl font-bold tracking-tight">
+          KP<span class="text-cyan-400">.</span>
+        </a>
+
+        <div class="flex items-center gap-6 text-sm text-slate-300">
+          <a href="#projects" class="hover:text-cyan-400">Projects</a>
+          <a href="#about" class="hover:text-cyan-400">About</a>
+          <a href="/resume.pdf" class="hover:text-cyan-400">Resume</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="mx-auto max-w-6xl px-6 py-28">
+        <p class="mb-5 font-mono text-sm tracking-wide text-cyan-400">
+          COMPUTER ENGINEER / DIGITAL HARDWARE
+        </p>
+
+        <h1 class="max-w-4xl text-5xl font-bold leading-tight tracking-tight md:text-7xl">
+          Building efficient computing systems
+          <span class="text-cyan-400">from RTL to silicon.</span>
+        </h1>
+
+        <p class="mt-8 max-w-2xl text-lg leading-relaxed text-slate-400">
+          I'm a computer engineering graduate specializing in digital design,
+          computer architecture, and hardware acceleration for AI. My work
+          spans processors, memory systems, and custom accelerators.
+        </p>
+
+        <div class="mt-10 flex flex-wrap gap-4">
+          <a
+            href="#projects"
+            class="rounded-lg bg-cyan-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400"
+          >
+            Explore Projects →
+          </a>
+
+          <a
+            href="/resume.pdf"
+            class="rounded-lg border border-slate-700 px-6 py-3 font-semibold transition hover:border-cyan-400"
+          >
+            View Resume
+          </a>
+        </div>
+      </section>
+
+      <section id="projects" class="border-t border-slate-800 bg-slate-900/40">
+        <div class="mx-auto max-w-6xl px-6 py-24">
+          <div class="mb-12">
+            <p class="mb-3 font-mono text-sm text-cyan-400">SELECTED WORK</p>
+            <h2 class="text-4xl font-bold">Featured Projects</h2>
+          </div>
+
+
+		<div class="grid gap-6 md:grid-cols-2">
+		  {projects.map((project) => (
+		    <ProjectCard
+		      title={project.data.title}
+		      category={project.data.category}
+		      description={project.data.description}
+		      tags={project.data.tags}
+		      link={`/projects/${project.id}`}
+		    />
+		  ))}
+		</div>
+        </div>
+      </section>
+
+      <section id="about" class="mx-auto max-w-6xl px-6 py-24">
+        <p class="mb-3 font-mono text-sm text-cyan-400">ABOUT ME</p>
+        <h2 class="mb-6 text-4xl font-bold">Engineering at every level.</h2>
+
+        <p class="max-w-3xl text-lg leading-relaxed text-slate-400">
+          My interests lie at the intersection of computer architecture,
+          digital circuit design, and high-performance computing. I enjoy
+          translating architectural ideas into working RTL, verifying their
+          correctness, and exploring their physical implementation.
+        </p>
+      </section>
+    </main>
+
+    <footer class="border-t border-slate-800 px-6 py-8 text-center text-sm text-slate-500">
+      © {new Date().getFullYear()} · Built with Astro
+    </footer>
+  </body>
 </html>

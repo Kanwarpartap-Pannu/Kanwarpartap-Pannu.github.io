@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+
+@layer components {
+  .project-content h1 {
+    @apply mb-6 text-4xl font-bold;
+  }
+
+  .project-content h2 {
+    @apply mt-12 mb-5 text-2xl font-bold text-slate-100;
+  }
+
+  .project-content h3 {
+    @apply mt-8 mb-4 text-xl font-semibold text-slate-200;
+  }
+
+  .project-content p {
+    @apply mb-6 leading-8 text-slate-400;
+  }
+
+  .project-content ul {
+    @apply mb-6 list-disc space-y-2 pl-6 text-slate-400;
+  }
+
+  .project-content ol {
+    @apply mb-6 list-decimal space-y-2 pl-6 text-slate-400;
+  }
+
+  .project-content a {
+    @apply text-cyan-400 underline underline-offset-4;
+  }
+
+  .project-content img {
+    @apply my-8 w-full rounded-xl border border-slate-800;
+  }
+
+  .project-content pre {
+    @apply my-6 overflow-x-auto rounded-lg border border-slate-800 bg-slate-950 p-5;
+  }
+
+  .project-content code {
+    @apply font-mono text-sm;
+  }
+}
