@@ -2,6 +2,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ProjectCard from "../components/ProjectCard.astro";
+import SectionTitle from "../components/SectionTitle.astro";
 import { getCollection } from "astro:content";
 
 const projects = (await getCollection("projects"))
@@ -18,21 +19,33 @@ const projects = (await getCollection("projects"))
 >
   <main>
 
-    <!-- Hero Section -->
-    <section class="mx-auto max-w-6xl px-6 py-28">
+<!-- Hero Section -->
+<section class="mx-auto max-w-6xl px-6 py-24">
+  <div class="grid items-center gap-12 md:grid-cols-[minmax(0,0.9fr)_280px]">
+
+    <!-- Left: Your existing introduction -->
+    <div>
+      <!-- Keep your existing hero heading,
+           description, and buttons here -->
       <p class="mb-5 font-mono text-sm tracking-wide text-accent">
         COMPUTER ENGINEER / DIGITAL HARDWARE
       </p>
 
-      <h1 class="max-w-4xl text-5xl font-bold leading-tight tracking-tight text-heading md:text-7xl">
-        Building efficient computing systems <span class="text-accent">from RTL to silicon.</span>
-      </h1>
+<h1 class="text-5xl font-bold tracking-tight text-heading md:text-6xl">
+            Hi,
+            <span class="block">
+            I'm Kanwar!
+            </span>
+</h1>
 
-      <p class="mt-8 max-w-2xl text-lg leading-relaxed text-body">
-        I'm a computer engineering graduate specializing in digital design,
-        computer architecture, and hardware acceleration for AI. My work
-        spans processors, memory systems, and custom accelerators.
-      </p>
+<p class="mt-6 max-w-xl text-lg leading-relaxed text-body">
+  I'm a recent computer engineering graduate interested in computer architecture,
+  digital design, and building hardware from the ground up.
+</p>
+
+<p class="mt-4 max-w-xl text-lg leading-relaxed text-body">
+  I enjoy turning ideas into working systems, from RTL to silicon.
+</p>
 
       <div class="mt-10 flex flex-wrap gap-4">
         <a
@@ -49,25 +62,46 @@ const projects = (await getCollection("projects"))
           View Resume
         </a>
       </div>
-    </section>
+    </div>
 
-    <!-- Featured Projects -->
-    <section
-      id="projects"
-      class="border-t border-border bg-surface-alt"
-    >
-      <div class="mx-auto max-w-6xl px-6 py-24">
-        <div class="mb-12">
-          <p class="mb-3 font-mono text-sm text-accent">
-            SELECTED WORK
-          </p>
 
-          <h2 class="text-4xl font-bold text-heading">
-            Featured Projects
-          </h2>
-        </div>
 
-        <div class="grid gap-6 md:grid-cols-2">
+<!-- Portrait with CPU die frame -->
+<div class="relative mx-auto w-full max-w-[320px]">
+
+  <!-- CPU die: larger than portrait -->
+  <div class="absolute -inset-10 overflow-hidden rounded-2xl border border-border">
+    <img
+      src="/images/cpu_die.jpg"
+      alt=""
+      class="h-full w-full object-cover"
+    />
+  </div>
+
+  <!-- Portrait: stays the same size -->
+  <img
+    src="/images/grad_shot.jpg"
+    alt="Portrait of Kanwar Pannu"
+    class="relative z-10 h-75 w-full rounded-3xl object-cover object-top"
+  />
+
+</div>
+
+  </div>
+</section>
+
+
+
+<!-- Featured Projects + About Me -->
+<div class="mx-auto grid max-w-6xl gap-16 px-6 py-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-12">
+
+  <!-- LEFT: Featured Projects -->
+  <section id="projects" class="min-w-0">
+    <SectionTitle number="01" title="Featured Projects" />
+
+    <div class="mt-8 grid gap-6">
+      <!-- Keep your existing ProjectCard components here -->
+	 <div class="grid gap-6 md:grid-cols-1">
           {projects.map((project) => (
             <ProjectCard
               title={project.data.title}
@@ -78,29 +112,75 @@ const projects = (await getCollection("projects"))
             />
           ))}
         </div>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- About Section -->
-    <section
-      id="about"
-      class="mx-auto max-w-6xl px-6 py-24"
-    >
-      <p class="mb-3 font-mono text-sm text-accent">
-        ABOUT ME
-      </p>
+  <!-- RIGHT: About Me -->
+  <section id="about" class="min-w-0 lg:sticky lg:top-28 lg:self-start">
+    <SectionTitle number="02" title="About Me" />
 
-      <h2 class="mb-6 text-4xl font-bold text-heading">
+    <div class="mt-8">
+      <!-- Keep your existing About Me text here -->
+<h2 class="mb-6 text-4xl font-bold text-heading">
         Engineering at every level.
       </h2>
 
-      <p class="max-w-3xl text-lg leading-relaxed text-body">
-        My interests lie at the intersection of computer architecture,
-        digital circuit design, and high-performance computing. I enjoy
-        translating architectural ideas into working RTL, verifying their
-        correctness, and exploring their physical implementation.
-      </p>
-    </section>
+
+<div class="space-y-5 text-body leading-7">
+  <p>
+    My journey in computer engineering has taken me through a range of
+    areas, from researching novel AI learning algorithms to designing
+    and implementing hardware systems. While I've enjoyed exploring
+    different fields, my main interests lie in <span class="font-semibold text-heading">
+      computer architecture and digital design.
+    </span>
+  </p>
+
+  <p>
+    I've designed a RISC-V processor from scratch, implemented a
+    research-based cache architecture in SystemVerilog to improve
+    cache eviction efficiency, and developed a custom accelerator
+    for a spiking neural network. I've also worked in a team to
+    take a TPU design from RTL to physical layout and explored
+    analog circuit design through an AI-powered EEG detection project.
+  </p>
+
+  <p>
+    I enjoy understanding how computing systems work at every level,
+    from architectural decisions down to the circuits that bring
+    them to life.
+  </p>
+
+<p class="mt-5 leading-7 text-body">
+  I encourage you to explore some of my featured projects to get a
+  closer look at what I've been working on. Outside of engineering,
+  I enjoy music, playing guitar, drawing, and reading. If you're
+  curious about what keeps me busy beyond hardware, feel free to
+  check out my & More page. Otherwise, take a look at my resume
+  to learn more about my experience and technical background!
+</p>
+
+<div class="mt-6 flex flex-wrap gap-6">
+  <a
+    href="/more"
+    class="font-semibold text-accent transition hover:text-accent-hover"
+  >
+    & More About Me ↗
+  </a>
+
+  <a
+    href="/resume"
+    class="font-semibold text-accent transition hover:text-accent-hover"
+  >
+    View My Resume ↗
+  </a>
+</div>
+
+</div>
+    </div>
+  </section>
+
+</div>
 
   </main>
 </Layout>
