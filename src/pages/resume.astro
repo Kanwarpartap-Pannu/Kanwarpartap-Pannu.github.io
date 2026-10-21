@@ -1,5 +1,4 @@
 
-
 ---
 import Layout from "../layouts/Layout.astro";
 import SectionTitle from "../components/SectionTitle.astro";
@@ -76,6 +75,7 @@ const projects = [
 ];
 ---
 
+
 <Layout
   title="Resume | Kanwar Pannu"
   description="Resume of Kanwar Pannu, Digital Design Engineer specializing in RTL, computer architecture, and AI hardware."
@@ -85,50 +85,56 @@ const projects = [
     <!-- Breadcrumb -->
     <a
       href="/"
-      class="mb-12 inline-flex text-sm text-slate-400 transition hover:text-cyan-400"
+      class="mb-12 inline-flex text-sm text-muted transition hover:text-accent"
     >
       ← Back to Home
     </a>
 
     <!-- Hero -->
-    <section class="mb-20 border-b border-slate-800 pb-14">
-      <p class="mb-4 font-mono text-sm tracking-widest text-cyan-400">
+    <section class="mb-20 border-b border-border pb-14">
+      <p class="mb-4 font-mono text-sm tracking-widest text-accent">
         RESUME / CURRICULUM VITAE
       </p>
 
-      <h1 class="mb-4 text-5xl font-bold tracking-tight md:text-7xl">
-        Kanwar Pannu<span class="text-cyan-400">.</span>
+      <h1 class="mb-4 text-5xl font-bold tracking-tight text-heading md:text-7xl">
+        Kanwar Pannu
       </h1>
 
-      <p class="mb-6 text-2xl font-medium text-slate-300">
+      <p class="mb-6 text-2xl font-medium text-heading">
         Digital Design Engineer
       </p>
 
-      <p class="max-w-3xl leading-8 text-slate-400">
+      <p class="max-w-3xl leading-8 text-body">
         Computer Engineering graduate specializing in digital design,
         computer architecture, and hardware acceleration for AI.
         Experienced across RTL development, verification, synthesis,
         FPGA implementation, and preliminary ASIC physical design.
       </p>
 
-      <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate-400">
+      <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-muted">
         <span>Toronto, Canada</span>
-        <a href="mailto:kanwarpartappannu@yahoo.ca" class="hover:text-cyan-400">
+
+        <a
+          href="mailto:kanwarpartappannu@yahoo.ca"
+          class="transition hover:text-accent"
+        >
           Email ↗
         </a>
+
         <a
           href="https://www.linkedin.com/in/kanwarpartap-pannu"
           target="_blank"
           rel="noopener noreferrer"
-          class="hover:text-cyan-400"
+          class="transition hover:text-accent"
         >
           LinkedIn ↗
         </a>
+
         <a
           href="https://github.com/Kanwarpartap-Pannu"
           target="_blank"
           rel="noopener noreferrer"
-          class="hover:text-cyan-400"
+          class="transition hover:text-accent"
         >
           GitHub ↗
         </a>
@@ -137,51 +143,84 @@ const projects = [
       <a
         href="/resume.pdf"
         download
-        class="mt-10 inline-flex rounded-lg bg-cyan-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400"
+        class="mt-10 inline-flex rounded-lg bg-accent px-6 py-3 font-semibold text-on-accent transition hover:bg-accent-hover"
       >
         Download Resume ↓
       </a>
     </section>
 
-    <!-- Experience -->
-    <section class="mb-20">
-      <SectionTitle number="01" title="Experience" />
 
-      <div class="grid gap-4 md:grid-cols-[1fr_3fr]">
-        <p class="font-mono text-sm text-slate-500">2023 — 2025</p>
 
-        <div>
-          <h3 class="text-xl font-semibold">Neuromorphics Researcher</h3>
-          <p class="mt-1 text-cyan-400">York University</p>
-          <p class="mt-4 leading-7 text-slate-400">
-            Designed and implemented spiking neural network algorithms
-            in Python and PyTorch, exploring biologically inspired learning
-            approaches for low-power AI hardware.
-          </p>
-          <p class="mt-3 leading-7 text-slate-400">
-            Collaborated with multidisciplinary researchers to translate
-            neuroscience research into engineering documentation and designs.
-          </p>
-        </div>
-      </div>
-    </section>
+<!-- Experience -->
+<section class="mb-20">
+  <SectionTitle number="01" title="Experience" />
 
-    <!-- Education -->
-    <section class="mb-20">
-      <SectionTitle number="02" title="Education" />
+  <div class="grid gap-6 md:grid-cols-[1fr_3fr]">
 
-      <div class="grid gap-4 md:grid-cols-[1fr_3fr]">
-        <p class="font-mono text-sm text-slate-500">2021 — 2026</p>
+    <!-- Left column: Date + Image -->
+    <div>
+      <p class="font-mono text-sm text-muted">2023 — 2025</p>
 
-        <div>
-          <h3 class="text-xl font-semibold">
-            Bachelor of Engineering — Computer Engineering
-          </h3>
-          <p class="mt-2 text-cyan-400">York University</p>
-          <p class="mt-2 text-slate-400">Toronto, Canada</p>
-        </div>
-      </div>
-    </section>
+      <img
+        src="/images/resume/lassonde-logo.png"
+        alt="Neuromorphic computing research"
+        loading="lazy"
+        class="mt-5 w-full max-w-45 p-4 rounded-lg border border-border bg-clear object-contain"
+      />
+    </div>
+
+    <!-- Right column: Experience details -->
+    <div>
+      <h3 class="text-xl font-semibold text-heading">
+        Neuromorphics Researcher
+      </h3>
+
+      <p class="mt-1 text-accent">York University</p>
+
+      <p class="mt-4 leading-7 text-body">
+        Designed and implemented spiking neural network algorithms
+        in Python and PyTorch, exploring biologically inspired learning
+        approaches for low-power AI hardware.
+      </p>
+
+      <p class="mt-3 leading-7 text-body">
+        Collaborated with multidisciplinary researchers to translate
+        neuroscience research into engineering documentation and designs.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- Education -->
+<section class="mb-20">
+  <SectionTitle number="02" title="Education" />
+
+  <div class="grid gap-6 md:grid-cols-[1fr_3fr]">
+
+    <!-- Left column: Date + Logo -->
+    <div>
+      <p class="font-mono text-sm text-muted">2021 — 2026</p>
+
+      <img
+        src="/images/resume/Logo_York_University.svg.webp"
+        alt="York University logo"
+        loading="lazy"
+        class="mt-5 w-full max-w-45 p-4 rounded-lg border border-border bg-clear object-contain p-3"
+      />
+    </div>
+
+    <!-- Right column: Education details -->
+    <div>
+      <h3 class="text-xl font-semibold text-heading">
+        Bachelor of Engineering — Computer Engineering
+      </h3>
+
+      <p class="mt-2 text-accent">York University</p>
+      <p class="mt-2 text-body">Toronto, Canada</p>
+    </div>
+  </div>
+</section>
 
     <!-- Technical Skills -->
     <section class="mb-20">
@@ -190,13 +229,15 @@ const projects = [
       <div class="space-y-8">
         {skills.map((group) => (
           <div class="grid gap-4 md:grid-cols-[1fr_3fr]">
-            <h3 class="text-sm font-medium text-slate-300">
+            <h3 class="text-sm font-medium text-heading">
               {group.category}
             </h3>
 
             <div class="flex flex-wrap gap-2">
               {group.items.map((skill) => (
-                <span class="rounded-md border border-slate-800 bg-slate-900 px-3 py-2 font-mono text-xs text-slate-300">
+                <span
+                  class="rounded-md border border-border bg-surface px-3 py-2 font-mono text-xs text-body"
+                >
                   {skill}
                 </span>
               ))}
@@ -210,18 +251,20 @@ const projects = [
     <section class="mb-20">
       <SectionTitle number="04" title="Selected Engineering Projects" />
 
-      <div class="divide-y divide-slate-800">
+      <div class="divide-y divide-border">
         {projects.map((project) => (
           <article class="py-8 first:pt-0">
-            <h3 class="mb-3 text-xl font-semibold">{project.name}</h3>
+            <h3 class="mb-3 text-xl font-semibold text-heading">
+              {project.name}
+            </h3>
 
-            <p class="mb-5 max-w-3xl leading-7 text-slate-400">
+            <p class="mb-5 max-w-3xl leading-7 text-body">
               {project.description}
             </p>
 
             <div class="mb-4 flex flex-wrap gap-2">
               {project.tags.map((tag) => (
-                <span class="font-mono text-xs text-cyan-400">
+                <span class="font-mono text-xs text-accent">
                   #{tag.replaceAll(" ", "")}
                 </span>
               ))}
@@ -229,16 +272,20 @@ const projects = [
 
             <div class="flex gap-5 text-sm">
               {project.portfolio && (
-                <a href={project.portfolio} class="text-slate-300 hover:text-cyan-400">
+                <a
+                  href={project.portfolio}
+                  class="text-body transition hover:text-accent"
+                >
                   Project Details ↗
                 </a>
               )}
+
               {project.github && (
                 <a
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-slate-300 hover:text-cyan-400"
+                  class="text-body transition hover:text-accent"
                 >
                   Source Code ↗
                 </a>
@@ -250,19 +297,33 @@ const projects = [
     </section>
 
     <!-- Bottom CTA -->
-    <section class="rounded-xl border border-slate-800 bg-slate-900/60 p-8 text-center md:p-12">
-      <h2 class="mb-3 text-2xl font-bold">Interested in my work?</h2>
-      <p class="mb-6 text-slate-400">
+    <section
+      class="rounded-xl border border-border bg-surface p-8 text-center md:p-12"
+    >
+      <h2 class="mb-3 text-2xl font-bold text-heading">
+        Interested in my work?
+      </h2>
+
+      <p class="mb-6 text-body">
         Explore my engineering projects or get in touch.
       </p>
+
       <div class="flex flex-wrap justify-center gap-4">
-        <a href="/#projects" class="rounded-lg bg-cyan-500 px-5 py-3 font-semibold text-slate-950 hover:bg-cyan-400">
+        <a
+          href="/#projects"
+          class="rounded-lg bg-accent px-5 py-3 font-semibold text-on-accent transition hover:bg-accent-hover"
+        >
           View Projects
         </a>
-        <a href="mailto:kanwarpartappannu@yahoo.ca" class="rounded-lg border border-slate-700 px-5 py-3 font-semibold hover:border-cyan-400">
+
+        <a
+          href="mailto:kanwarpartappannu@yahoo.ca"
+          class="rounded-lg border border-border px-5 py-3 font-semibold text-heading transition hover:border-accent hover:text-accent"
+        >
           Contact Me
         </a>
       </div>
     </section>
+
   </main>
 </Layout>

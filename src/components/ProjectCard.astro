@@ -1,5 +1,4 @@
 
-
 ---
 interface Props {
   title: string;
@@ -14,23 +13,23 @@ const { title, category, description, tags, link } = Astro.props;
 
 <a
   href={link}
-  class="group block rounded-xl border border-slate-800 bg-slate-900 p-8 transition hover:border-cyan-500/60"
+  class="group block rounded-xl border border-border bg-surface p-8 transition hover:border-accent"
 >
-  <p class="mb-4 font-mono text-xs uppercase tracking-wider text-cyan-400">
+  <p class="mb-4 font-mono text-xs uppercase tracking-wider text-accent">
     {category}
   </p>
 
-  <h3 class="mb-4 text-2xl font-bold transition group-hover:text-cyan-400">
+  <h3 class="mb-4 text-2xl font-bold text-heading transition group-hover:text-accent">
     {title} ↗
   </h3>
 
-  <p class="mb-6 leading-relaxed text-slate-400">
+  <p class="mb-6 leading-relaxed text-body">
     {description}
   </p>
 
   <div class="flex flex-wrap gap-2">
     {tags.map((tag) => (
-      <span class="rounded-md bg-slate-800 px-3 py-1 font-mono text-xs text-slate-300">
+      <span class="rounded-md bg-surface-alt px-3 py-1 font-mono text-xs text-muted">
         {tag}
       </span>
     ))}

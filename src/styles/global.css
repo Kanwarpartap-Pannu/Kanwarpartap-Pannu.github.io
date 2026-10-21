@@ -1,109 +1,143 @@
+
 @import "tailwindcss";
 
+/* =========================================
+   GLOBAL THEME
+   Change these values to recolor the site
+   ========================================= */
+
+
+:root {
+  --site-page: #FAF7F2;          /* Warm ivory background */
+  --site-surface: #FFFEFB;       /* Soft white cards */
+  --site-surface-alt: #F2EDE5;   /* Cream section backgrounds */
+
+  --site-heading: #292524;       /* Warm charcoal */
+  --site-body: #57534E;          /* Warm gray */
+  --site-muted: #78716C;
+
+  --site-accent: #315C80;        /* Muted steel blue */
+  --site-accent-hover: #244763;
+  --site-on-accent: #FFFFFF;
+
+  --site-border: #E7DFD4;        /* Warm beige borders */
+}
+
+/* Tailwind v4 semantic utilities */
+
+@theme inline {
+  --color-page: var(--site-page);
+  --color-surface: var(--site-surface);
+  --color-surface-alt: var(--site-surface-alt);
+
+  --color-heading: var(--site-heading);
+  --color-body: var(--site-body);
+  --color-muted: var(--site-muted);
+
+  --color-accent: var(--site-accent);
+  --color-accent-hover: var(--site-accent-hover);
+  --color-on-accent: var(--site-on-accent);
+
+  --color-border: var(--site-border);
+}
+
+/* =========================================
+   PROJECT CONTENT / MARKDOWN
+   ========================================= */
 
 @layer components {
+
+  .project-content {
+    color: var(--site-body);
+    line-height: 1.85;
+  }
+
   .project-content h1 {
     @apply mb-6 text-4xl font-bold;
+    color: var(--site-heading);
   }
 
   .project-content h2 {
-    @apply mt-12 mb-5 text-2xl font-bold text-slate-100;
+    @apply mt-12 mb-5 text-2xl font-bold;
+    color: var(--site-heading);
+    letter-spacing: -0.025em;
   }
 
   .project-content h3 {
-    @apply mt-8 mb-4 text-xl font-semibold text-slate-200;
+    @apply mt-8 mb-4 text-xl font-semibold;
+    color: var(--site-heading);
   }
 
   .project-content p {
-    @apply mb-6 leading-8 text-slate-400;
+    @apply mb-6 leading-8;
+    color: var(--site-body);
   }
 
   .project-content ul {
-    @apply mb-6 list-disc space-y-2 pl-6 text-slate-400;
+    @apply mb-6 list-disc space-y-2 pl-6;
+    color: var(--site-body);
   }
 
   .project-content ol {
-    @apply mb-6 list-decimal space-y-2 pl-6 text-slate-400;
+    @apply mb-6 list-decimal space-y-2 pl-6;
+    color: var(--site-body);
+  }
+
+  .project-content li {
+    @apply pl-1;
+  }
+
+  .project-content strong {
+    color: var(--site-heading);
+    font-weight: 600;
   }
 
   .project-content a {
-    @apply text-cyan-400 underline underline-offset-4;
+    color: var(--site-accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
   }
 
-  .project-content img {
-    @apply my-8 w-full rounded-xl border border-slate-800;
+  .project-content a:hover {
+    color: var(--site-accent-hover);
+  }
+
+  /* Only style standalone Markdown images */
+
+  .project-content > p > img,
+  .project-content > img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 2rem auto;
+    border: 1px solid var(--site-border);
+    border-radius: 0.75rem;
+    background: var(--site-surface);
+    padding: 1rem;
   }
 
   .project-content pre {
-    @apply my-6 overflow-x-auto rounded-lg border border-slate-800 bg-slate-950 p-5;
+    @apply my-6 overflow-x-auto rounded-lg p-5;
+    background: var(--site-surface-alt);
+    border: 1px solid var(--site-border);
+    color: var(--site-heading);
   }
 
   .project-content code {
     @apply font-mono text-sm;
   }
 
-/* Project case studies */
+  .project-content :not(pre) > code {
+    color: var(--site-accent);
+  }
 
-.project-content {
-  color: #94a3b8;
-  line-height: 1.85;
-}
+  /* Gallery images are controlled by ProjectGallery.astro */
 
-.project-content h2 {
-  color: #f8fafc;
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-top: 3.5rem;
-  margin-bottom: 1.25rem;
-  letter-spacing: -0.025em;
-}
-
-.project-content h3 {
-  color: #e2e8f0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-top: 2rem;
-  margin-bottom: 0.75rem;
-}
-
-.project-content p {
-  margin-bottom: 1.25rem;
-}
-
-.project-content ul {
-  list-style: disc;
-  padding-left: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.project-content li {
-  padding-left: 0.25rem;
-  margin-bottom: 0.5rem;
-}
-
-.project-content strong {
-  color: #e2e8f0;
-  font-weight: 600;
-}
-
-.project-content a {
-  color: #22d3ee;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
-.project-content img {
-  display: block;
-  width: 100%;
-  height: auto;
-  margin: 2rem auto;
-  border: 1px solid #334155;
-  border-radius: 0.75rem;
-  background: #f8fafc;
-  padding: 1rem;
-}
-
-.project-content code {
-  color: #67e8f9;
-}
+  .project-content .project-gallery img {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
 }

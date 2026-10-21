@@ -20,11 +20,6 @@ In multicore embedded systems, shared last-level caches (LLCs) improve memory ef
 ZeroCost-LLC is a parameterizable SystemVerilog implementation inspired by the research paper High Performance and Predictable Shared Last-Level Cache for Safety-Critical Systems (ACM TECS, 2024). The architecture addresses this problem through cache-line relocation and the Vacancy Invariant (VINV), which maintain inclusion while avoiding back-invalidations and their associated timing penalties.
 
 The project explores how these architectural mechanisms can support predictable shared-cache behavior without sacrificing the performance benefits of an inclusive LLC. It implements a set-associative cache with LRU replacement, write-back/write-allocate policies, and dedicated control logic for relocation and memory transactions.
-## Architecture
-
-![ZeroCost-LLC component architecture](/images/zerocost-llc/zcllc_component_diagram.jpg)
-
-The design incorporates a set-associative cache organization, LRU replacement, write-back/write-allocate policies, and cache-line relocation using the vacancy invariant.
 
 ## Engineering Highlights
 
