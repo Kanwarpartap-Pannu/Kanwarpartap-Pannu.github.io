@@ -120,6 +120,7 @@ const projects = (await getCollection("projects"))
               description={project.data.description}
               tags={project.data.tags}
               link={`/projects/${project.id}`}
+              image={project.data.image}
             />
           ))}
         </div>
@@ -166,19 +167,15 @@ const projects = (await getCollection("projects"))
   I encourage you to explore some of my featured projects to get a
   closer look at what I've been working on. Outside of engineering,
   I enjoy music, playing guitar, drawing, and reading. If you're
-  curious about what keeps me busy beyond hardware, feel free to
-  check out my & More page. Otherwise, take a look at my resume
-  to learn more about my experience and technical background!
-</p>
-
-<div class="mt-6 flex flex-wrap gap-6">
-  <a
+  curious about what keeps me busy beyond hardware, feel free to <a
     href="/more"
     class="font-semibold text-accent transition hover:text-accent-hover"
   >
-    & More About Me ↗
-  </a>
+    click and learn more about me↗.
+  </a> Otherwise, take a look at my resume to learn more about my experience and technical background!
+</p>
 
+<div class="mt-6 flex flex-wrap gap-6">
   <a
     href="/resume"
     class="font-semibold text-accent transition hover:text-accent-hover"

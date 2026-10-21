@@ -6,15 +6,19 @@ interface Props {
   description: string;
   tags: string[];
   link: string;
+  image?: string;
 }
 
-const { title, category, description, tags, link } = Astro.props;
+const { title, category, description, tags, link, image } = Astro.props;
 ---
 
 <a
   href={link}
   class="group block rounded-xl border border-border bg-surface p-8 transition hover:border-accent"
 >
+
+<div class="flex items-start gap-4">
+  <div class="min-w-0 flex-1">
   <p class="mb-4 font-mono text-xs uppercase tracking-wider text-accent">
     {category}
   </p>
@@ -26,7 +30,19 @@ const { title, category, description, tags, link } = Astro.props;
   <p class="mb-6 leading-relaxed text-body">
     {description}
   </p>
+</div>
 
+  <!-- Small project thumbnail -->
+  {image && (
+    <img
+      src={image}
+      alt={`${title} thumbnail`}
+      loading="lazy"
+      class="h-20 w-20 shrink-0 rounded-lg border border-border bg-surface object-contain p-1"
+    />
+  )}
+
+</div>
   <div class="flex flex-wrap gap-2">
     {tags.map((tag) => (
       <span class="rounded-md bg-surface-alt px-3 py-1 font-mono text-xs text-muted">
