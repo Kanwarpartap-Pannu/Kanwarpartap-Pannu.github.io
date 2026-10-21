@@ -1,0 +1,268 @@
+
+
+---
+import Layout from "../layouts/Layout.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+
+const skills = [
+  {
+    category: "Hardware Design & EDA",
+    items: [
+      "Verilog", "SystemVerilog", "Verilator",
+      "ModelSim", "Yosys", "Quartus",
+      "LibreLane", "OpenROAD", "LTspice",
+      "Icarus Verilog"
+    ],
+  },
+  {
+    category: "Programming",
+    items: ["Python", "C", "C++", "NumPy", "Pandas", "Scikit-learn", "cocotb"],
+  },
+  {
+    category: "Development Tools",
+    items: ["Git", "Linux", "Docker", "Make", "Bash", "Jupyter"],
+  },
+];
+
+const projects = [
+  {
+    name: "Accuracy-Aware Parametrizable TPU",
+    description:
+      "Designed parametrizable MAC arithmetic datapaths supporting INT8, INT4, and INT2 inference. Performed RTL synthesis and preliminary ASIC physical implementation targeting GF180MCU.",
+    tags: ["SystemVerilog", "Yosys", "OpenROAD"],
+    github: "https://github.com/Kanwarpartap-Pannu/TensorGrid",
+    portfolio: null,
+  },
+  {
+    name: "ZeroCost-LLC",
+    description:
+      "Developed a parametrizable set-associative last-level cache with LRU replacement, write-back and write-allocate policies, exploring predictable memory access for embedded systems.",
+    tags: ["SystemVerilog", "Cache Architecture", "RTL"],
+    github: "https://github.com/Kanwarpartap-Pannu/ZeroCost-LLC",
+    portfolio: "/projects/zerocost-llc",
+  },
+  {
+    name: "5-Stage Pipelined RISC-V CPU",
+    description:
+      "Designed a 32-bit in-order RISC-V processor with IF, ID, EX, MEM, and WB stages, including hazard detection, forwarding, stalls, and branch control.",
+    tags: ["RISC-V", "SystemVerilog", "Processor Design"],
+    github: "https://github.com/Kanwarpartap-Pannu/RISCV-CORE",
+    portfolio: "/projects/riscv-cpu",
+  },
+  {
+    name: "FPGA CNN Accelerator",
+    description:
+      "Implemented a convolutional spiking neural network on the DE10-Lite FPGA, with UART communication, automated verification, and MNIST inference.",
+    tags: ["Verilog", "FPGA", "Python"],
+    github: null,
+    portfolio: "/projects/cnn-accelerator",
+  },
+  {
+    name: "ECG Monitoring & AI Anomaly Detection",
+    description:
+      "Designed a MOSFET-based ECG analog front-end and integrated real-time signal acquisition with a Python ML pipeline and monitoring dashboard.",
+    tags: ["LTspice", "Arduino", "Python"],
+    github: null,
+    portfolio: null,
+  },
+  {
+    name: "Tree Motion Energy Harvesting & IoT",
+    description:
+      "Developed ESP32 firmware and a real-time monitoring pipeline for harvested energy and environmental sensor data.",
+    tags: ["ESP32", "Embedded Systems", "IoT"],
+    github: null,
+    portfolio: null,
+  },
+];
+---
+
+<Layout
+  title="Resume | Kanwar Pannu"
+  description="Resume of Kanwar Pannu, Digital Design Engineer specializing in RTL, computer architecture, and AI hardware."
+>
+  <main class="mx-auto max-w-5xl px-6 py-20">
+
+    <!-- Breadcrumb -->
+    <a
+      href="/"
+      class="mb-12 inline-flex text-sm text-slate-400 transition hover:text-cyan-400"
+    >
+      ← Back to Home
+    </a>
+
+    <!-- Hero -->
+    <section class="mb-20 border-b border-slate-800 pb-14">
+      <p class="mb-4 font-mono text-sm tracking-widest text-cyan-400">
+        RESUME / CURRICULUM VITAE
+      </p>
+
+      <h1 class="mb-4 text-5xl font-bold tracking-tight md:text-7xl">
+        Kanwar Pannu<span class="text-cyan-400">.</span>
+      </h1>
+
+      <p class="mb-6 text-2xl font-medium text-slate-300">
+        Digital Design Engineer
+      </p>
+
+      <p class="max-w-3xl leading-8 text-slate-400">
+        Computer Engineering graduate specializing in digital design,
+        computer architecture, and hardware acceleration for AI.
+        Experienced across RTL development, verification, synthesis,
+        FPGA implementation, and preliminary ASIC physical design.
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate-400">
+        <span>Toronto, Canada</span>
+        <a href="mailto:kanwarpartappannu@yahoo.ca" class="hover:text-cyan-400">
+          Email ↗
+        </a>
+        <a
+          href="https://www.linkedin.com/in/kanwarpartap-pannu"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:text-cyan-400"
+        >
+          LinkedIn ↗
+        </a>
+        <a
+          href="https://github.com/Kanwarpartap-Pannu"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:text-cyan-400"
+        >
+          GitHub ↗
+        </a>
+      </div>
+
+      <a
+        href="/resume.pdf"
+        download
+        class="mt-10 inline-flex rounded-lg bg-cyan-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400"
+      >
+        Download Resume ↓
+      </a>
+    </section>
+
+    <!-- Experience -->
+    <section class="mb-20">
+      <SectionTitle number="01" title="Experience" />
+
+      <div class="grid gap-4 md:grid-cols-[1fr_3fr]">
+        <p class="font-mono text-sm text-slate-500">2023 — 2025</p>
+
+        <div>
+          <h3 class="text-xl font-semibold">Neuromorphics Researcher</h3>
+          <p class="mt-1 text-cyan-400">York University</p>
+          <p class="mt-4 leading-7 text-slate-400">
+            Designed and implemented spiking neural network algorithms
+            in Python and PyTorch, exploring biologically inspired learning
+            approaches for low-power AI hardware.
+          </p>
+          <p class="mt-3 leading-7 text-slate-400">
+            Collaborated with multidisciplinary researchers to translate
+            neuroscience research into engineering documentation and designs.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="mb-20">
+      <SectionTitle number="02" title="Education" />
+
+      <div class="grid gap-4 md:grid-cols-[1fr_3fr]">
+        <p class="font-mono text-sm text-slate-500">2021 — 2026</p>
+
+        <div>
+          <h3 class="text-xl font-semibold">
+            Bachelor of Engineering — Computer Engineering
+          </h3>
+          <p class="mt-2 text-cyan-400">York University</p>
+          <p class="mt-2 text-slate-400">Toronto, Canada</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Skills -->
+    <section class="mb-20">
+      <SectionTitle number="03" title="Technical Skills" />
+
+      <div class="space-y-8">
+        {skills.map((group) => (
+          <div class="grid gap-4 md:grid-cols-[1fr_3fr]">
+            <h3 class="text-sm font-medium text-slate-300">
+              {group.category}
+            </h3>
+
+            <div class="flex flex-wrap gap-2">
+              {group.items.map((skill) => (
+                <span class="rounded-md border border-slate-800 bg-slate-900 px-3 py-2 font-mono text-xs text-slate-300">
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="mb-20">
+      <SectionTitle number="04" title="Selected Engineering Projects" />
+
+      <div class="divide-y divide-slate-800">
+        {projects.map((project) => (
+          <article class="py-8 first:pt-0">
+            <h3 class="mb-3 text-xl font-semibold">{project.name}</h3>
+
+            <p class="mb-5 max-w-3xl leading-7 text-slate-400">
+              {project.description}
+            </p>
+
+            <div class="mb-4 flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span class="font-mono text-xs text-cyan-400">
+                  #{tag.replaceAll(" ", "")}
+                </span>
+              ))}
+            </div>
+
+            <div class="flex gap-5 text-sm">
+              {project.portfolio && (
+                <a href={project.portfolio} class="text-slate-300 hover:text-cyan-400">
+                  Project Details ↗
+                </a>
+              )}
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-slate-300 hover:text-cyan-400"
+                >
+                  Source Code ↗
+                </a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="rounded-xl border border-slate-800 bg-slate-900/60 p-8 text-center md:p-12">
+      <h2 class="mb-3 text-2xl font-bold">Interested in my work?</h2>
+      <p class="mb-6 text-slate-400">
+        Explore my engineering projects or get in touch.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/#projects" class="rounded-lg bg-cyan-500 px-5 py-3 font-semibold text-slate-950 hover:bg-cyan-400">
+          View Projects
+        </a>
+        <a href="mailto:kanwarpartappannu@yahoo.ca" class="rounded-lg border border-slate-700 px-5 py-3 font-semibold hover:border-cyan-400">
+          Contact Me
+        </a>
+      </div>
+    </section>
+  </main>
+</Layout>

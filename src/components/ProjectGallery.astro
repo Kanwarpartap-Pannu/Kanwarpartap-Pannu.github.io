@@ -1,0 +1,180 @@
+
+
+---
+interface Image {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  images: Image[];
+}
+
+const { images } = Astro.props;
+---
+
+{images.length > 0 && (
+  <div class="project-gallery my-8" data-gallery>
+    <div class="relative mx-auto max-w-2xl overflow-hidden rounded-xl border border-slate-700 bg-slate-900">
+      <button
+        type="button"
+        data-expand
+        aria-label="Expand image"
+        class="block w-full cursor-zoom-in"
+      >
+        <img
+          data-main-image
+          src={images[0].src}
+          alt={images[0].alt}
+          class="h-64 w-full object-contain p-3 sm:h-80"
+        />
+      </button>
+
+      {images.length > 1 && (
+        <>
+          <button type="button" data-prev aria-label="Previous image"
+            class="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-slate-950/80 px-3 py-2 text-white hover:bg-cyan-600">
+            ←
+          </button>
+          <button type="button" data-next aria-label="Next image"
+            class="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-slate-950/80 px-3 py-2 text-white hover:bg-cyan-600">
+            →
+          </button>
+        </>
+      )}
+    </div>
+
+    <p data-caption class="mt-3 text-center text-sm text-slate-400">
+      {images[0].alt}
+    </p>
+
+    <div class="mt-4 flex justify-center gap-2">
+      {images.map((image, i) => (
+        <button
+          type="button"
+          data-thumb={i}
+          aria-label={`Show image ${i + 1}: ${image.alt}`}
+          aria-pressed={i === 0 ? "true" : "false"}
+          class:list={[
+            "h-14 w-20 overflow-hidden rounded-md border-2 transition",
+            i === 0 ? "border-cyan-400" : "border-slate-700 opacity-60"
+          ]}
+        >
+<img
+  src={image.src}
+  alt=""
+  class="h-full w-full object-contain p-1"
+/>
+        </button>
+      ))}
+    </div>
+
+    <dialog
+      data-lightbox
+      aria-label="Expanded project image"
+      class="fixed inset-0 m-auto max-h-screen max-w-full border-0 bg-transparent p-4 text-white backdrop:bg-black/95"
+    >
+      <div class="flex max-h-[95vh] flex-col items-center gap-4">
+        <div class="flex w-full max-w-6xl justify-end">
+          <button type="button" data-close aria-label="Close image"
+            class="rounded-lg bg-slate-800 px-4 py-2 hover:bg-slate-700">
+            Close ✕
+          </button>
+        </div>
+
+        <div class="flex min-h-0 items-center gap-3">
+          <button type="button" data-prev aria-label="Previous image"
+            class="rounded-lg bg-slate-800 p-3 hover:bg-slate-700">
+            ←
+          </button>
+
+          <img data-expanded-image src={images[0].src} alt={images[0].alt}
+            class="max-h-[75vh] min-w-0 max-w-[75vw] object-contain" />
+
+          <button type="button" data-next aria-label="Next image"
+            class="rounded-lg bg-slate-800 p-3 hover:bg-slate-700">
+            →
+          </button>
+        </div>
+
+        <p data-expanded-caption class="text-center text-sm text-slate-300">
+          {images[0].alt}
+        </p>
+      </div>
+    </dialog>
+  </div>
+)}
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-gallery]").forEach((gallery) => {
+    const thumbs = Array.from(
+      gallery.querySelectorAll<HTMLButtonElement>("[data-thumb]")
+    );
+
+    const images = thumbs.map((thumb) => ({
+      src: thumb.querySelector("img")!.src,
+      alt: thumb.getAttribute("aria-label")!.replace(/^Show image \d+: /, "")
+    }));
+
+    if (!images.length) return;
+
+    let index = 0;
+
+    const main = gallery.querySelector<HTMLImageElement>("[data-main-image]")!;
+    const expanded = gallery.querySelector<HTMLImageElement>("[data-expanded-image]")!;
+    const caption = gallery.querySelector<HTMLElement>("[data-caption]")!;
+    const expandedCaption = gallery.querySelector<HTMLElement>("[data-expanded-caption]")!;
+    const dialog = gallery.querySelector<HTMLDialogElement>("[data-lightbox]")!;
+
+    function show(next: number) {
+      index = (next + images.length) % images.length;
+      const image = images[index];
+
+      main.src = image.src;
+      main.alt = image.alt;
+      expanded.src = image.src;
+      expanded.alt = image.alt;
+      caption.textContent = image.alt;
+      expandedCaption.textContent = image.alt;
+
+      thumbs.forEach((thumb, i) => {
+        const active = i === index;
+        thumb.setAttribute("aria-pressed", String(active));
+        thumb.classList.toggle("border-cyan-400", active);
+        thumb.classList.toggle("border-slate-700", !active);
+        thumb.classList.toggle("opacity-60", !active);
+      });
+    }
+
+    gallery.querySelectorAll("[data-prev]").forEach((button) =>
+      button.addEventListener("click", () => show(index - 1))
+    );
+
+    gallery.querySelectorAll("[data-next]").forEach((button) =>
+      button.addEventListener("click", () => show(index + 1))
+    );
+
+    thumbs.forEach((thumb, i) =>
+      thumb.addEventListener("click", () => show(i))
+    );
+
+    gallery.querySelector("[data-expand]")?.addEventListener("click", () =>
+      dialog.showModal()
+    );
+
+    gallery.querySelector("[data-close]")?.addEventListener("click", () =>
+      dialog.close()
+    );
+
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    dialog.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        event.preventDefault();
+        show(index + (event.key === "ArrowRight" ? 1 : -1));
+      }
+    });
+  });
+</script>

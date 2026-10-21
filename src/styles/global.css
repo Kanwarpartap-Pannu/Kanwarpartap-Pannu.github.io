@@ -41,4 +41,69 @@
   .project-content code {
     @apply font-mono text-sm;
   }
+
+/* Project case studies */
+
+.project-content {
+  color: #94a3b8;
+  line-height: 1.85;
+}
+
+.project-content h2 {
+  color: #f8fafc;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-top: 3.5rem;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.025em;
+}
+
+.project-content h3 {
+  color: #e2e8f0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.project-content p {
+  margin-bottom: 1.25rem;
+}
+
+.project-content ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.project-content li {
+  padding-left: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.project-content strong {
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.project-content a {
+  color: #22d3ee;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.project-content img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 2rem auto;
+  border: 1px solid #334155;
+  border-radius: 0.75rem;
+  background: #f8fafc;
+  padding: 1rem;
+}
+
+.project-content code {
+  color: #67e8f9;
+}
 }

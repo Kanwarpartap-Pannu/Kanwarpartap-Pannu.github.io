@@ -3,6 +3,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
+import ProjectGallery from "../../components/ProjectGallery.astro";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
@@ -15,13 +16,31 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
+const galleries = {
+  "zerocost-llc": [
+    {
+      src: "/images/zerocost-llc/zcllc_component_diagram.jpg",
+      alt: "ZeroCost-LLC component architecture",
+    },
+    {
+      src: "/images/zerocost-llc/flow_chart.jpg",
+      alt: "Cache request and relocation dataflow",
+    },
+    {
+      src: "/images/zerocost-llc/state_diagram.jpg",
+      alt: "Cache controller state diagram",
+    },
+  ],
+};
+
+const gallery = galleries[project.id] ?? [];
 ---
 
 <Layout
   title={`${project.data.title} | Engineering Portfolio`}
   description={project.data.description}
 >
-  <main class="mx-auto max-w-4xl px-6 py-20">
+  <main class="mx-auto max-w-4xl px-6 py-10">
 
     <a
       href="/#projects"
@@ -30,7 +49,7 @@ const { Content } = await render(project);
       ← Back to Projects
     </a>
 
-    <header class="mb-12">
+    <header class="mb-4">
       <p class="mb-4 font-mono text-sm text-cyan-400">
         {project.data.category}
       </p>
@@ -51,20 +70,47 @@ const { Content } = await render(project);
         ))}
       </div>
 
-      {project.data.github && (
+
+    {project.data.github && (
+      <a
+        href={project.data.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-8 inline-flex items-center gap-3 rounded-lg bg-cyan-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400"
+      >
+        View Technical Documentation on GitHub
+        <span aria-hidden="true">↗</span>
+      </a>
+    )}
+    </header>
+
+    <article class="project-content border-t border-slate-800 pt-0">
+
+      <ProjectGallery images={gallery} />
+      <Content />
+
+    {project.data.github && (
+      <div class="mt-16 rounded-xl border border-slate-800 bg-slate-900/50 p-8 text-center">
+        <h2 class="mb-3 text-2xl font-bold">
+          Explore the Implementation
+        </h2>
+
+        <p class="mx-auto mb-6 max-w-xl text-slate-400">
+          Interested in the architecture, RTL implementation,
+          verification environment, and design decisions?
+          Explore the complete project documentation and source code.
+        </p>
+
         <a
           href={project.data.github}
           target="_blank"
           rel="noopener noreferrer"
-          class="mt-8 inline-block text-cyan-400 hover:underline"
+          class="inline-flex rounded-lg border border-cyan-500 px-6 py-3 font-semibold text-cyan-400 transition hover:bg-cyan-500 hover:text-slate-950"
         >
-          View Source on GitHub ↗
+          Explore on GitHub ↗
         </a>
-      )}
-    </header>
-
-    <article class="project-content border-t border-slate-800 pt-10">
-      <Content />
+      </div>
+    )}
     </article>
 
   </main>
