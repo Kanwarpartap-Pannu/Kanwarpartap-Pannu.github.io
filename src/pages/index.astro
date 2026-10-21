@@ -18,7 +18,6 @@ const projects = (await getCollection("projects"))
   description="Computer engineering portfolio specializing in digital design, computer architecture, and AI hardware acceleration."
 >
   <main>
-
 <!-- Hero Section -->
 <section class="mx-auto max-w-6xl px-6 py-24">
   <div class="grid items-center gap-12 md:grid-cols-[minmax(0,0.9fr)_280px]">
@@ -31,12 +30,24 @@ const projects = (await getCollection("projects"))
         COMPUTER ENGINEER / DIGITAL HARDWARE
       </p>
 
-<h1 class="text-5xl font-bold tracking-tight text-heading md:text-6xl">
-            Hi,
-            <span class="block">
-            I'm Kanwar!
-            </span>
-</h1>
+<div class="flex items-center gap-4 md:block">
+
+  <h1 class="shrink-0 text-4xl font-bold tracking-tight text-heading md:text-6xl">
+    Hi,
+    <span class="block">
+      I'm Kanwar 
+    </span>
+  </h1>
+
+  <div class="flex min-w-0 flex-1 justify-center md:hidden">
+    <img
+      src="/images/grad_shot.jpg"
+      alt="Kanwar Pannu"
+      class="h-20 w-20 rounded-full border-2 border-accent object-cover object-top"
+    />
+  </div>
+
+</div>
 
 <p class="mt-6 max-w-xl text-lg leading-relaxed text-body">
   I'm a recent computer engineering graduate interested in computer architecture,
@@ -67,7 +78,7 @@ const projects = (await getCollection("projects"))
 
 
 <!-- Portrait with CPU die frame -->
-<div class="relative mx-auto w-full max-w-[320px]">
+<div class="relative mx-auto hidden w-full max-w-[320px] md:block">
 
   <!-- CPU die: larger than portrait -->
   <div class="absolute -inset-10 overflow-hidden rounded-2xl border border-border">
