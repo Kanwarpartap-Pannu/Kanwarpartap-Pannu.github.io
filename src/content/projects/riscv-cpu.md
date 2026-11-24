@@ -11,6 +11,7 @@ tags:
   - Computer Architecture
 featured: true
 github: "https://github.com/Kanwarpartap-Pannu/RISCV-CORE"
+image: "/images/riscv-cpu/core_datapath.png"
 ---
 ## Overview
 

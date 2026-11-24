@@ -1,3 +1,6 @@
+---
+import SocialLinks from "./SocialLinks.astro";
+---
 
 <header class="border-b border-border bg-page">
   <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
@@ -15,6 +18,10 @@
       <a href="/resume" class="transition hover:text-accent">
         Resume
       </a>
+
+      <span class="hidden h-4 w-px bg-border sm:block" aria-hidden="true"></span>
+
+      <SocialLinks variant="header" class="hidden sm:flex" />
     </div>
   </nav>
 </header>

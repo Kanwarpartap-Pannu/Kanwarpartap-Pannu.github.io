@@ -25,12 +25,13 @@ const skills = [
 
 const projects = [
   {
-    name: "Accuracy-Aware Parametrizable TPU",
+    name: "Accuracy-Aware Tensor Processing Unit",
     description:
-      "Designed parametrizable MAC arithmetic datapaths supporting INT8, INT4, and INT2 inference. Performed RTL synthesis and preliminary ASIC physical implementation targeting GF180MCU.",
-    tags: ["SystemVerilog", "Yosys", "OpenROAD"],
+      "Contributed RTL and verification to a five-person team taking an INT8-to-INT2 accuracy-aware TPU from RTL to GDS on GF180MCU. Designed configurable INT32, BF16, and FP32 adder and multiplier units and an SPI controller, and built a cocotb golden-model UART testbench with loopback and clock-drift checks.",
+    tags: ["SystemVerilog", "cocotb", "LibreLane"],
     github: "https://github.com/Kanwarpartap-Pannu/TensorGrid",
-    portfolio: null,
+    portfolio: "/projects/tpu",
+    video: null,
   },
   {
     name: "ZeroCost-LLC",
@@ -39,30 +40,34 @@ const projects = [
     tags: ["SystemVerilog", "Cache Architecture", "RTL"],
     github: "https://github.com/Kanwarpartap-Pannu/ZeroCost-LLC",
     portfolio: "/projects/zerocost-llc",
+    video: null,
   },
   {
-    name: "5-Stage Pipelined RISC-V CPU",
+    name: "32-bit RISC-V CPU",
     description:
-      "Designed a 32-bit in-order RISC-V processor with IF, ID, EX, MEM, and WB stages, including hazard detection, forwarding, stalls, and branch control.",
+      "Designed a 32-bit in-order, five-stage pipelined RISC-V processor with IF, ID, EX, MEM, and WB stages, including hazard detection, forwarding, stalls, and branch control.",
     tags: ["RISC-V", "SystemVerilog", "Processor Design"],
     github: "https://github.com/Kanwarpartap-Pannu/RISCV-CORE",
     portfolio: "/projects/riscv-cpu",
+    video: null,
   },
   {
-    name: "FPGA CNN Accelerator",
+    name: "FPGA Spiking CNN Accelerator",
     description:
-      "Implemented a convolutional spiking neural network on the DE10-Lite FPGA, with UART communication, automated verification, and MNIST inference.",
-    tags: ["Verilog", "FPGA", "Python"],
-    github: null,
+      "Designed a spiking convolutional neural network accelerator that classifies MNIST images streamed over UART, verified live against a Python golden model through Verilator co-simulation. FPGA deployment in progress.",
+    tags: ["SystemVerilog", "FPGA", "Verilator"],
+    github: "https://github.com/Kanwarpartap-Pannu/Spiking-CNN-Accelerator",
     portfolio: "/projects/cnn-accelerator",
+    video: null,
   },
   {
-    name: "ECG Monitoring & AI Anomaly Detection",
+    name: "ECG Monitoring System",
     description:
-      "Designed a MOSFET-based ECG analog front-end and integrated real-time signal acquisition with a Python ML pipeline and monitoring dashboard.",
+      "Designed MOSFET amplifier stages for a low-power ECG analog front-end with a measured 66 dB gain, and built the real-time pipeline streaming live ECG data to a CNN anomaly detector and web dashboard.",
     tags: ["LTspice", "Arduino", "Python"],
     github: null,
-    portfolio: null,
+    portfolio: "/projects/eeg-monitoring-system",
+    video: "https://youtu.be/GBLd_bZqjc4",
   },
   {
     name: "Tree Motion Energy Harvesting & IoT",
@@ -71,6 +76,7 @@ const projects = [
     tags: ["ESP32", "Embedded Systems", "IoT"],
     github: null,
     portfolio: null,
+    video: null,
   },
 ];
 ---
@@ -341,7 +347,13 @@ const projects = [
         {projects.map((project) => (
           <article class="py-8 first:pt-0">
             <h3 class="mb-3 text-xl font-semibold text-heading">
-              {project.name}
+              {project.portfolio ? (
+                <a href={project.portfolio} class="transition hover:text-accent">
+                  {project.name}
+                </a>
+              ) : (
+                project.name
+              )}
             </h3>
 
             <p class="mb-5 max-w-3xl leading-7 text-body">
@@ -356,7 +368,7 @@ const projects = [
               ))}
             </div>
 
-            <div class="flex gap-5 text-sm">
+            <div class="flex flex-wrap gap-x-5 gap-y-2 text-sm">
               {project.portfolio && (
                 <a
                   href={project.portfolio}
@@ -374,6 +386,17 @@ const projects = [
                   class="text-body transition hover:text-accent"
                 >
                   Source Code ↗
+                </a>
+              )}
+
+              {project.video && (
+                <a
+                  href={project.video}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-body transition hover:text-accent"
+                >
+                  Demo Video ↗
                 </a>
               )}
             </div>

@@ -36,6 +36,28 @@ const galleries = {
       alt: "CPU core datapath",
     },
   ],
+  "eeg-monitoring-system": [
+    {
+      src: "/images/ecg-monitoring/circuit_schematic.png",
+      alt: "LTspice schematic of the MOSFET ECG amplifier",
+    },
+    {
+      src: "/images/ecg-monitoring/breadboard.jpg",
+      alt: "Breadboard implementation of the ECG circuit",
+    },
+    {
+      src: "/images/ecg-monitoring/oscilloscope.jpg",
+      alt: "Live ECG waveform on an oscilloscope",
+    },
+    {
+      src: "/images/ecg-monitoring/ac_sweep.png",
+      alt: "LTspice AC sweep of the amplifier output",
+    },
+    {
+      src: "/images/ecg-monitoring/dashboard.jpg",
+      alt: "Live ECG dashboard with heart rate and AI prediction",
+    },
+  ],
 };
 
 const gallery = galleries[project.id] ?? [];
@@ -81,17 +103,38 @@ const gallery = galleries[project.id] ?? [];
         ))}
       </div>
 
-      <!-- GitHub documentation -->
-      {project.data.github && (
-        <a
-          href={project.data.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="mt-8 inline-flex items-center gap-3 rounded-lg bg-accent px-6 py-3 font-semibold text-on-accent transition hover:bg-accent-hover"
-        >
-          View Technical Documentation on GitHub
-          <span aria-hidden="true">↗</span>
-        </a>
+      <!-- GitHub documentation and demo video -->
+      {(project.data.github || project.data.video) && (
+        <div class="mt-8 flex flex-wrap gap-4">
+          {project.data.github && (
+            <a
+              href={project.data.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-3 rounded-lg bg-accent px-6 py-3 font-semibold text-on-accent transition hover:bg-accent-hover"
+            >
+              View Technical Documentation on GitHub
+              <span aria-hidden="true">↗</span>
+            </a>
+          )}
+
+          {project.data.video && (
+            <a
+              href={project.data.video}
+              target="_blank"
+              rel="noopener noreferrer"
+              class:list={[
+                "inline-flex items-center gap-3 rounded-lg px-6 py-3 font-semibold transition",
+                project.data.github
+                  ? "border border-border text-heading hover:border-accent hover:text-accent"
+                  : "bg-accent text-on-accent hover:bg-accent-hover",
+              ]}
+            >
+              <span aria-hidden="true">▶</span>
+              Watch the Project Demo on YouTube
+            </a>
+          )}
+        </div>
       )}
     </header>
 

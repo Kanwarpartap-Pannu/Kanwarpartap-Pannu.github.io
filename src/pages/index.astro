@@ -3,6 +3,7 @@
 import Layout from "../layouts/Layout.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import SectionTitle from "../components/SectionTitle.astro";
+import SocialLinks from "../components/SocialLinks.astro";
 import { getCollection } from "astro:content";
 
 const projects = (await getCollection("projects"))
@@ -58,7 +59,7 @@ const projects = (await getCollection("projects"))
   I enjoy turning ideas into working systems, from RTL to silicon.
 </p>
 
-      <div class="mt-10 flex flex-wrap gap-4">
+      <div class="mt-10 flex flex-wrap items-center gap-4">
         <a
           href="#projects"
           class="rounded-lg bg-accent px-6 py-3 font-semibold text-on-accent transition hover:bg-accent-hover"
@@ -72,6 +73,8 @@ const projects = (await getCollection("projects"))
         >
           View Resume
         </a>
+
+        <SocialLinks variant="hero" />
       </div>
     </div>
 
@@ -154,7 +157,7 @@ const projects = (await getCollection("projects"))
     cache eviction efficiency, and developed a custom accelerator
     for a spiking neural network. I've also worked in a team to
     take a TPU design from RTL to physical layout and explored
-    analog circuit design through an AI-powered EEG detection project.
+    analog circuit design through an AI-powered ECG detection project.
   </p>
 
   <p>

@@ -102,6 +102,23 @@
     color: var(--site-accent-hover);
   }
 
+  .project-content table {
+    @apply mb-6 block w-full overflow-x-auto text-sm;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .project-content th,
+  .project-content td {
+    @apply px-4 py-2 text-left whitespace-nowrap;
+    border-bottom: 1px solid var(--site-border);
+  }
+
+  .project-content th {
+    color: var(--site-heading);
+    font-weight: 600;
+  }
+
   /* Only style standalone Markdown images */
 
   .project-content > p > img,
