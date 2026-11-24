@@ -1,0 +1,149 @@
+---
+import { getImage } from "astro:assets";
+import { render } from "astro:content";
+import Layout from "../../../layouts/Layout.astro";
+import StarRating from "../../../components/more/StarRating.astro";
+import SampleBadge from "../../../components/more/SampleBadge.astro";
+import ProjectGallery from "../../../components/ProjectGallery.astro";
+import {
+  MORE_SECTIONS,
+  REVIEW_KINDS,
+  formatDate,
+  getPhotos,
+  getSectionEntries,
+  youtubeId,
+  type MoreEntry,
+} from "../../../lib/more";
+
+export async function getStaticPaths() {
+  const paths = await Promise.all(
+    MORE_SECTIONS.map(async (section) => {
+      const entries = await getSectionEntries(section.key);
+      return entries.map((entry) => ({
+        params: { section: section.key, slug: entry.id },
+        props: { section, entry },
+      }));
+    }),
+  );
+  return paths.flat();
+}
+
+const { section, entry } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data as MoreEntry["data"] & {
+  kind?: keyof typeof REVIEW_KINDS;
+  creator?: string;
+  year?: number;
+  rating?: number;
+  medium?: string;
+  builtWith?: string[];
+};
+
+const videoId = youtubeId(data.video);
+const photos = getPhotos(entry);
+// Resized web versions for the gallery (same scroller as the project pages).
+// The caption under each photo is its `caption`, or the post title.
+const gallery = await Promise.all(
+  photos.map(async (photo) => ({
+    src: (await getImage({ src: photo.src, width: 1600, format: "webp" })).src,
+    alt: photo.caption ?? data.title,
+  })),
+);
+
+const details = [
+  data.kind && REVIEW_KINDS[data.kind].label,
+  data.creator && `${data.kind ? REVIEW_KINDS[data.kind].creatorPrefix : "by"} ${data.creator}`,
+  data.year,
+  data.medium,
+  data.builtWith?.length ? `Built with ${data.builtWith.join(", ")}` : undefined,
+].filter(Boolean);
+---
+
+<Layout
+  title={`${data.title} | ${section.title} | Kanwar Pannu`}
+  description={data.summary ?? section.blurb}
+>
+  <main class="mx-auto max-w-4xl px-6 py-14">
+
+    <a
+      href={`/more/${section.key}`}
+      class="mb-10 inline-block text-sm text-muted transition hover:text-accent"
+    >
+      ← Back to {section.title}
+    </a>
+
+    <header class="mb-8">
+      <div class="mb-4 flex flex-wrap items-center gap-3">
+        <p class="font-mono text-sm tracking-wide text-accent">& MORE / {section.label}</p>
+        {data.sample && <SampleBadge />}
+      </div>
+
+      <h1 class="mb-4 text-4xl font-bold tracking-tight text-heading md:text-5xl">
+        {data.title}
+      </h1>
+
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">
+        {details.map((detail) => <span>{detail}</span>)}
+        <span>{formatDate(data.date)}</span>
+      </div>
+
+      {data.tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-2">
+          {data.tags.map((tag) => (
+            <span class="rounded-md bg-surface-alt px-3 py-1 font-mono text-xs text-muted">{tag}</span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <!-- A video goes at the top; otherwise the photo gallery does -->
+    {videoId ? (
+      <div class="mb-10 aspect-video overflow-hidden rounded-xl border border-border bg-black">
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+          title={data.title}
+          loading="lazy"
+          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          class="h-full w-full"
+        ></iframe>
+      </div>
+    ) : null}
+
+    {!videoId && gallery.length > 0 && (
+      <div class="mb-10">
+        <ProjectGallery images={gallery} />
+      </div>
+    )}
+
+    <!-- Reviews: one overall rating, taken from `rating` in the file -->
+    {section.key === "reviews" && (
+      <section class="mb-10">
+        <h2 class="mb-4 text-2xl font-bold tracking-tight text-heading">Rating</h2>
+        {typeof data.rating === "number" ? (
+          <div class="flex flex-wrap items-center gap-4">
+            <StarRating rating={data.rating} size="lg" />
+            <span class="text-2xl font-bold text-heading">
+              {data.rating}<span class="text-lg font-medium text-muted"> / 5</span>
+            </span>
+          </div>
+        ) : (
+          <p class="text-muted">Not rated yet.</p>
+        )}
+      </section>
+    )}
+
+    <article class="project-content">
+      <Content />
+    </article>
+
+    <!-- With a video at the top, the photos go below the write-up -->
+    {videoId && gallery.length > 0 && (
+      <section class="mt-12">
+        <h2 class="mb-2 text-2xl font-bold text-heading">Photos</h2>
+        <ProjectGallery images={gallery} />
+      </section>
+    )}
+
+  </main>
+</Layout>

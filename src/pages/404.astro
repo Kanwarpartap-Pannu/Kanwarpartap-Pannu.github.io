@@ -1,0 +1,46 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Page Not Found | Kanwar Pannu"
+  description="The page you're looking for doesn't exist."
+>
+  <main class="mx-auto max-w-3xl px-6 py-28 text-center">
+    <p class="mb-5 font-mono text-sm tracking-widest text-accent">
+      ERROR 404 / ADDRESS NOT FOUND
+    </p>
+
+    <h1 class="mb-6 text-5xl font-bold tracking-tight text-heading md:text-7xl">
+      Cache miss<span class="text-accent">.</span>
+    </h1>
+
+    <p class="mx-auto mb-10 max-w-md text-lg leading-relaxed text-body">
+      This page doesn't exist, or it may have moved.
+      Try one of these instead.
+    </p>
+
+    <div class="flex flex-wrap justify-center gap-4">
+      <a
+        href="/"
+        class="rounded-lg bg-accent px-6 py-3 font-semibold text-on-accent transition hover:bg-accent-hover"
+      >
+        Back to Home
+      </a>
+
+      <a
+        href="/projects"
+        class="rounded-lg border border-border px-6 py-3 font-semibold text-heading transition hover:border-accent hover:text-accent"
+      >
+        View Projects
+      </a>
+
+      <a
+        href="/resume"
+        class="rounded-lg border border-border px-6 py-3 font-semibold text-heading transition hover:border-accent hover:text-accent"
+      >
+        View Resume
+      </a>
+    </div>
+  </main>
+</Layout>

@@ -1,0 +1,74 @@
+---
+// A plain collage card: one picture (or a video thumbnail, or text).
+// Used for posts with zero or one photo. Card height follows the image's shape.
+import { Image } from "astro:assets";
+import CardMeta from "./CardMeta.astro";
+import SampleBadge from "./SampleBadge.astro";
+import { getPhotos, youtubeThumbnail, type MoreEntry, type MoreSectionKey } from "../../lib/more";
+
+interface Props {
+  entry: MoreEntry;
+  section: MoreSectionKey;
+}
+
+const { entry, section } = Astro.props;
+const data = entry.data as MoreEntry["data"] & { kind?: string };
+const href = `/more/${section}/${entry.id}`;
+const photos = getPhotos(entry);
+const photo = photos[0];
+const videoThumb = photo ? undefined : youtubeThumbnail(data.video);
+---
+
+<a
+  href={href}
+  data-collage-card
+  data-post={entry.id}
+  data-kind={data.kind ?? ""}
+  class="group mb-4 block break-inside-avoid overflow-hidden rounded-xl border border-border bg-surface transition hover:-translate-y-0.5 hover:border-accent hover:shadow-md"
+>
+  {photo ? (
+    <div class="relative">
+      <Image
+        src={photo.src}
+        alt={data.title}
+        widths={[320, 480, 640]}
+        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+        class="block h-auto w-full"
+      />
+      {data.sample && <SampleBadge class="absolute left-2.5 top-2.5" />}
+      {data.video && <span class="play-badge" aria-hidden="true">▶</span>}
+    </div>
+  ) : videoThumb ? (
+    <div class="relative">
+      <img src={videoThumb} alt={data.title} loading="lazy" class="block aspect-video w-full object-cover" />
+      {data.sample && <SampleBadge class="absolute left-2.5 top-2.5" />}
+      <span class="play-badge" aria-hidden="true">▶</span>
+    </div>
+  ) : (
+    <div class="relative bg-surface-alt px-5 pb-6 pt-10">
+      {data.sample && <SampleBadge class="absolute left-2.5 top-2.5" />}
+      <span class="block font-serif text-5xl leading-none text-accent/40" aria-hidden="true">“</span>
+      <p class="font-serif text-lg italic leading-snug text-heading">
+        {data.summary ?? data.title}
+      </p>
+    </div>
+  )}
+
+  <CardMeta entry={entry} section={section} photoCount={photos.length} />
+</a>
+
+<style>
+  .play-badge {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    display: grid;
+    height: 3rem;
+    width: 3rem;
+    place-items: center;
+    border-radius: 9999px;
+    background: rgb(0 0 0 / 0.6);
+    padding-left: 0.2rem;
+    color: white;
+    transform: translate(-50%, -50%);
+  }
+</style>

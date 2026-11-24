@@ -1,0 +1,27 @@
+---
+// Picks the right card style for a post:
+//   0 or 1 photo            -> CollageCard (plain card)
+//   several, display stack  -> StackCard (one swipeable card)
+//   several, display spread -> SpreadCards (one card per photo)
+//   several, display cover  -> CollageCard showing just the first photo
+import CollageCard from "./CollageCard.astro";
+import StackCard from "./StackCard.astro";
+import SpreadCards from "./SpreadCards.astro";
+import { getPhotos, type MoreEntry, type MoreSectionKey } from "../../lib/more";
+
+interface Props {
+  entry: MoreEntry;
+  section: MoreSectionKey;
+}
+
+const { entry, section } = Astro.props;
+const photoCount = getPhotos(entry).length;
+---
+
+{photoCount <= 1 || entry.data.display === "cover" ? (
+  <CollageCard entry={entry} section={section} />
+) : entry.data.display === "spread" ? (
+  <SpreadCards entry={entry} section={section} />
+) : (
+  <StackCard entry={entry} section={section} />
+)}

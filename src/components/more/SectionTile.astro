@@ -1,0 +1,114 @@
+---
+// A large tile on the "& More" landing page. Its background is a small
+// collage of that section's newest photos, so it updates as you add content.
+import { Image } from "astro:assets";
+import { getPhotos, youtubeThumbnail, type MoreEntry, type MoreSection } from "../../lib/more";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  section: MoreSection;
+  entries: MoreEntry[];
+  index: number;
+  /** Full-width banner tile (used when the last row has a single tile). */
+  wide?: boolean;
+}
+
+const { section, entries, index, wide = false } = Astro.props;
+const number = String(index + 1).padStart(2, "0");
+
+// Newest photos first (and YouTube thumbnails for video-only posts).
+// A `display: cover` post contributes only its first photo, matching how
+// it appears in the collage; stack and spread posts contribute every photo.
+type Preview = { image: ImageMetadata } | { url: string };
+const maxPreviews = wide ? 12 : 8;
+const previews: Preview[] = [];
+for (const entry of entries) {
+  const all = getPhotos(entry);
+  const photos = entry.data.display === "cover" ? all.slice(0, 1) : all;
+  const thumb = youtubeThumbnail(entry.data.video);
+  if (photos.length) photos.forEach((photo) => previews.push({ image: photo.src }));
+  else if (thumb) previews.push({ url: thumb });
+  if (previews.length >= maxPreviews) break;
+}
+const shown = previews.slice(0, maxPreviews);
+
+// Split the photos into columns that fill the whole frame. Fewer photos
+// means fewer, wider columns. Within a column, taller photos get more of
+// the height, so the board still looks like a mixed-size collage.
+const columnCount = Math.max(1, Math.min(shown.length, wide ? 6 : 4));
+const columns: { preview: Preview; grow: number }[][] = Array.from({ length: columnCount }, () => []);
+shown.forEach((preview, i) => {
+  // Height-to-width ratio, scaled by 10 so a column always fills
+  // (flex-grow values that add up to less than 1 leave a gap).
+  const grow = 10 * ("image" in preview ? preview.image.height / preview.image.width : 0.5625);
+  columns[i % columnCount].push({ preview, grow });
+});
+---
+
+<a
+  href={`/more/${section.key}`}
+  aria-label={`${section.title}: ${section.blurb}`}
+  class:list={[
+    "group block overflow-hidden rounded-2xl border border-border bg-surface transition hover:border-accent hover:shadow-md",
+    wide && "md:col-span-2",
+  ]}
+>
+  <!-- Mini collage board: shown as is, with nothing on top of it -->
+  <div
+    class:list={[
+      "relative overflow-hidden bg-surface-alt",
+      wide ? "aspect-[16/10] md:aspect-[21/7]" : "aspect-[16/10]",
+    ]}
+  >
+    {shown.length > 0 && (
+      <div
+        class="absolute inset-0 flex gap-1.5 p-1.5 transition duration-500 group-hover:scale-[1.03]"
+        aria-hidden="true"
+      >
+        {columns.map((column) => (
+          <div class="flex min-w-0 flex-1 flex-col gap-1.5">
+            {column.map(({ preview, grow }) => (
+              <div class="min-h-0 overflow-hidden rounded-md" style={`flex: ${grow.toFixed(3)} 1 0%`}>
+                {"image" in preview ? (
+                  <Image src={preview.image} alt="" widths={[240, 400]} sizes="240px" class="block h-full w-full object-cover" />
+                ) : (
+                  <img src={preview.url} alt="" loading="lazy" class="block h-full w-full object-cover" />
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    )}
+
+    {shown.length === 0 && (
+      <div class="absolute inset-0 grid place-items-center">
+        <div class="empty-board absolute inset-0 opacity-70" aria-hidden="true"></div>
+        <span class="relative rounded-md border border-border bg-surface px-3 py-1.5 font-mono text-xs tracking-widest text-muted">
+          COMING SOON
+        </span>
+      </div>
+    )}
+  </div>
+
+  <!-- Label strip under the collage -->
+  <div class="flex items-center justify-between gap-4 border-t border-border px-5 py-4 md:px-6">
+    <div class="min-w-0">
+      <p class="font-mono text-xl tracking-widest text-heading md:text-2xl">
+        <span class="text-accent">{number}</span> / {section.label}
+      </p>
+      <p class="mt-1 text-sm leading-6 text-muted">{section.blurb}</p>
+    </div>
+    <span class="shrink-0 text-2xl text-accent transition group-hover:translate-x-1" aria-hidden="true">→</span>
+  </div>
+</a>
+
+<style>
+  /* Light grid pattern for sections with nothing in them yet */
+  .empty-board {
+    background-image:
+      linear-gradient(var(--site-border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--site-border) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+</style>

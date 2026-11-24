@@ -1,5 +1,7 @@
 
 ---
+import StatusBadge from "./StatusBadge.astro";
+
 interface Props {
   title: string;
   category: string;
@@ -7,9 +9,10 @@ interface Props {
   tags: string[];
   link: string;
   image?: string;
+  status?: "in-progress";
 }
 
-const { title, category, description, tags, link, image } = Astro.props;
+const { title, category, description, tags, link, image, status } = Astro.props;
 ---
 
 <a
@@ -19,9 +22,12 @@ const { title, category, description, tags, link, image } = Astro.props;
 
 <div class="flex items-start gap-4">
   <div class="min-w-0 flex-1">
-  <p class="mb-4 font-mono text-xs uppercase tracking-wider text-accent">
-    {category}
-  </p>
+  <div class="mb-4 flex flex-wrap items-center gap-3">
+    <p class="font-mono text-xs uppercase tracking-wider text-accent">
+      {category}
+    </p>
+    <StatusBadge status={status} />
+  </div>
 
   <h3 class="mb-4 text-2xl font-bold text-heading transition group-hover:text-accent">
     {title} ↗

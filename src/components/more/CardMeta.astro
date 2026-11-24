@@ -1,0 +1,41 @@
+---
+// Title, detail line, and rating shown under a collage card's picture.
+import StarRating from "./StarRating.astro";
+import { REVIEW_KINDS, formatDate, type MoreEntry, type MoreSectionKey, type ReviewKind } from "../../lib/more";
+
+interface Props {
+  entry: MoreEntry;
+  section: MoreSectionKey;
+  photoCount?: number;
+}
+
+const { entry, section, photoCount = 0 } = Astro.props;
+const data = entry.data as MoreEntry["data"] & {
+  kind?: ReviewKind;
+  creator?: string;
+  year?: number;
+  rating?: number;
+  medium?: string;
+};
+
+const meta =
+  section === "reviews"
+    ? [data.kind && REVIEW_KINDS[data.kind].label, data.creator, data.year].filter(Boolean).join(" · ")
+    : section === "art" && data.medium
+      ? data.medium
+      : formatDate(data.date);
+---
+
+<div class="px-4 py-3">
+  <h3 class="font-semibold leading-snug text-heading transition group-hover:text-accent">
+    {data.title}
+  </h3>
+  <p class="mt-1 text-xs text-muted">
+    {meta}{photoCount > 1 && <span> · {photoCount} photos</span>}
+  </p>
+  {typeof data.rating === "number" && (
+    <div class="mt-2">
+      <StarRating rating={data.rating} />
+    </div>
+  )}
+</div>

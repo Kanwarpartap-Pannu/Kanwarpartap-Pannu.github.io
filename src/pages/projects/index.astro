@@ -1,0 +1,46 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProjectTile from "../../components/ProjectTile.astro";
+import { getCollection } from "astro:content";
+
+// Every project, newest first. A project with `highlight: true` is shown
+// as a large card at the top; everything else goes in the grid.
+const projects = (await getCollection("projects")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+const highlighted = projects.filter((project) => project.data.highlight);
+const rest = projects.filter((project) => !project.data.highlight);
+---
+
+<Layout
+  title="Projects | Kanwar Pannu"
+  description="Digital design, computer architecture, and AI hardware projects: processors, caches, accelerators, and more."
+>
+  <main class="mx-auto max-w-6xl px-6 py-20">
+
+    <header class="mb-14">
+      <p class="mb-5 font-mono text-sm tracking-wide text-accent">
+        PROJECTS
+      </p>
+
+      <h1 class="mb-6 text-5xl font-bold tracking-tight text-heading md:text-7xl">
+        Engineering Work<span class="text-accent">.</span>
+      </h1>
+
+      <p class="max-w-2xl text-lg leading-relaxed text-body">
+        Processors, caches, and AI accelerators, from RTL and verification
+        through to FPGA and silicon. Select a project for the full write-up.
+      </p>
+    </header>
+
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {highlighted.map((project) => (
+        <ProjectTile project={project} highlight />
+      ))}
+      {rest.map((project) => (
+        <ProjectTile project={project} />
+      ))}
+    </div>
+
+  </main>
+</Layout>

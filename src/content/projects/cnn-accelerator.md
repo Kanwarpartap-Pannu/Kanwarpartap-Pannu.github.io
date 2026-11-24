@@ -12,6 +12,7 @@ tags:
   - snnTorch
 featured: true
 github: "https://github.com/Kanwarpartap-Pannu/Spiking-CNN-Accelerator"
+status: in-progress
 ---
 
 ## Overview

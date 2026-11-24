@@ -1,0 +1,77 @@
+---
+// `display: spread` — one card per photo, all opening the same post.
+// The first card shows the title; the others show "Title · 2/5".
+// Hovering any card highlights the whole group.
+import { Image } from "astro:assets";
+import CardMeta from "./CardMeta.astro";
+import SampleBadge from "./SampleBadge.astro";
+import { getPhotos, type MoreEntry, type MoreSectionKey } from "../../lib/more";
+
+interface Props {
+  entry: MoreEntry;
+  section: MoreSectionKey;
+}
+
+const { entry, section } = Astro.props;
+const data = entry.data as MoreEntry["data"] & { kind?: string };
+const href = `/more/${section}/${entry.id}`;
+const photos = getPhotos(entry);
+const shown = photos.slice(0, data.maxCards);
+const hiddenCount = photos.length - shown.length;
+const group = `${section}-${entry.id}`;
+---
+
+{shown.map((photo, i) => (
+  <a
+    href={href}
+    data-collage-card
+    data-post={entry.id}
+    data-group={group}
+    data-kind={data.kind ?? ""}
+    class="spread-card group mb-4 block break-inside-avoid overflow-hidden rounded-xl border border-border bg-surface transition"
+  >
+    <div class="relative">
+      <Image
+        src={photo.src}
+        alt={photo.caption ?? `${data.title}, photo ${i + 1}`}
+        widths={[320, 480, 640]}
+        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+        class="block h-auto w-full"
+      />
+
+      {i === 0 && data.sample && <SampleBadge class="absolute left-2.5 top-2.5" />}
+
+      {i > 0 && (
+        <span class="absolute bottom-2.5 left-2.5 max-w-[85%] truncate rounded-md bg-black/60 px-2 py-0.5 text-[11px] text-white">
+          {data.title} · {i + 1}/{photos.length}
+        </span>
+      )}
+
+      {i === shown.length - 1 && hiddenCount > 0 && (
+        <div class="absolute inset-0 grid place-items-center bg-black/55 text-2xl font-semibold text-white">
+          +{hiddenCount} more
+        </div>
+      )}
+    </div>
+
+    {i === 0 && <CardMeta entry={entry} section={section} photoCount={photos.length} />}
+  </a>
+))}
+
+<style>
+  .spread-card:hover,
+  .spread-card[data-group-hover] {
+    border-color: var(--site-accent);
+    box-shadow: 0 0 0 1px var(--site-accent), 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+</style>
+
+<script>
+  // Highlight every card in the same group when one is hovered
+  document.querySelectorAll<HTMLElement>("[data-group]").forEach((card) => {
+    const siblings = () =>
+      document.querySelectorAll<HTMLElement>(`[data-group="${card.dataset.group}"]`);
+    card.addEventListener("mouseenter", () => siblings().forEach((s) => s.setAttribute("data-group-hover", "")));
+    card.addEventListener("mouseleave", () => siblings().forEach((s) => s.removeAttribute("data-group-hover")));
+  });
+</script>

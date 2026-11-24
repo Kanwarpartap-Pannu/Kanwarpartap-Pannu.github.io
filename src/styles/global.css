@@ -158,3 +158,13 @@
     background: transparent;
   }
 }
+
+/* Featured projects scroll area on the home page (large screens):
+   fades out at the bottom to show there's more to scroll */
+@media (min-width: 1024px) {
+  .projects-scroll {
+    mask-image: linear-gradient(to bottom, black calc(100% - 4rem), transparent);
+    scrollbar-width: thin;
+    scrollbar-color: var(--site-border) transparent;
+  }
+}

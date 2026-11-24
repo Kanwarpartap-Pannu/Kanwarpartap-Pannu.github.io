@@ -1,0 +1,108 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import CollageItem from "../../../components/more/CollageItem.astro";
+import { MORE_SECTIONS, REVIEW_KINDS, getSectionEntries, type ReviewKind } from "../../../lib/more";
+
+export function getStaticPaths() {
+  return MORE_SECTIONS.map((section) => ({
+    params: { section: section.key },
+    props: { section },
+  }));
+}
+
+const { section } = Astro.props;
+const entries = await getSectionEntries(section.key);
+const isReviews = section.key === "reviews";
+
+// Filter buttons for the reviews page: "All", plus one per kind you have reviews for
+const kindsPresent = new Set(entries.map((entry) => (entry.data as { kind?: ReviewKind }).kind));
+const filters = [
+  ["all", "All"],
+  ...(Object.keys(REVIEW_KINDS) as ReviewKind[])
+    .filter((kind) => kindsPresent.has(kind))
+    .map((kind) => [kind, REVIEW_KINDS[kind].filter]),
+];
+---
+
+<Layout
+  title={`${section.title} | & More | Kanwar Pannu`}
+  description={section.blurb}
+>
+  <main class="mx-auto max-w-6xl px-6 py-16">
+
+    <a
+      href="/more"
+      class="mb-12 inline-block text-sm text-muted transition hover:text-accent"
+    >
+      ← Back to & More
+    </a>
+
+    <header class="mb-10 flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <p class="mb-4 font-mono text-sm tracking-wide text-accent">
+          & MORE / {section.label}
+        </p>
+        <h1 class="mb-4 text-4xl font-bold tracking-tight text-heading md:text-6xl">
+          {section.title}
+        </h1>
+        <p class="max-w-xl text-lg leading-relaxed text-body">{section.blurb}</p>
+      </div>
+
+    </header>
+
+    {isReviews && entries.length > 0 && (
+      <div class="mb-8 flex flex-wrap gap-2" data-filter-bar>
+        {filters.map(([value, label], i) => (
+          <button
+            type="button"
+            data-filter={value}
+            aria-pressed={i === 0 ? "true" : "false"}
+            class="rounded-full border border-border px-4 py-1.5 text-sm text-body transition hover:border-accent hover:text-accent aria-pressed:border-accent aria-pressed:bg-accent aria-pressed:text-on-accent"
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+    )}
+
+    {entries.length > 0 ? (
+      <div data-collage class="columns-2 gap-4 sm:columns-3 lg:columns-4">
+        {entries.map((entry) => (
+          <CollageItem entry={entry} section={section.key} />
+        ))}
+      </div>
+    ) : (
+      <section class="rounded-xl border border-border bg-surface p-12 text-center md:p-20">
+        <p class="mb-4 font-mono text-sm tracking-widest text-accent">A WORK IN PROGRESS</p>
+        <h2 class="mb-4 text-3xl font-bold text-heading">Coming Soon.</h2>
+        <p class="mx-auto max-w-md leading-relaxed text-muted">Nothing here yet. Check back later.</p>
+      </section>
+    )}
+
+  </main>
+</Layout>
+
+<script>
+  import { initCollage } from "../../../scripts/collage-layout";
+
+  const collage = document.querySelector<HTMLElement>("[data-collage]");
+  if (collage) initCollage(collage);
+
+  // Books / Movies filter on the reviews page
+  const bar = document.querySelector("[data-filter-bar]");
+  if (bar) {
+    const buttons = bar.querySelectorAll<HTMLButtonElement>("[data-filter]");
+    const cards = document.querySelectorAll<HTMLElement>("[data-collage-card]");
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const value = button.dataset.filter;
+        buttons.forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
+        cards.forEach((card) => {
+          card.hidden = value !== "all" && card.dataset.kind !== value;
+        });
+        // Re-arrange the remaining cards
+        collage?.dispatchEvent(new Event("collage:refresh"));
+      });
+    });
+  }
+</script>

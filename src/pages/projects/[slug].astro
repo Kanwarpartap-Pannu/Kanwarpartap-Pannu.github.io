@@ -3,6 +3,7 @@
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
 import ProjectGallery from "../../components/ProjectGallery.astro";
+import StatusBadge from "../../components/StatusBadge.astro";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
@@ -72,7 +73,7 @@ const gallery = galleries[project.id] ?? [];
 
     <!-- Back navigation -->
     <a
-      href="/#projects"
+      href="/projects"
       class="mb-10 inline-block text-sm text-muted transition hover:text-accent"
     >
       ← Back to Projects
@@ -80,9 +81,12 @@ const gallery = galleries[project.id] ?? [];
 
     <!-- Project header -->
     <header class="mb-4">
-      <p class="mb-4 font-mono text-sm text-accent">
-        {project.data.category}
-      </p>
+      <div class="mb-4 flex flex-wrap items-center gap-3">
+        <p class="font-mono text-sm text-accent">
+          {project.data.category}
+        </p>
+        <StatusBadge status={project.data.status} />
+      </div>
 
       <h1 class="mb-6 text-5xl font-bold tracking-tight text-heading">
         {project.data.title}

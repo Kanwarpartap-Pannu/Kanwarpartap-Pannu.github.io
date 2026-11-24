@@ -12,6 +12,7 @@ tags:
 featured: true
 github: "https://github.com/Kanwarpartap-Pannu/ZeroCost-LLC"
 image: "/images/zerocost-llc/zcllc_component_diagram.jpg"
+highlight: true
 ---
 
 ## Overview

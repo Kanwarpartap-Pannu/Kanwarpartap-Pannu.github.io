@@ -4,17 +4,49 @@ import SocialLinks from "./SocialLinks.astro";
 
 <header class="border-b border-border bg-page">
   <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-    <a href="/" class="text-xl font-bold tracking-tight text-heading">
+    <a href="/" class="shrink-0 whitespace-nowrap text-xl font-bold tracking-tight text-heading">
       Kanwar Pannu
     </a>
 
     <div class="flex items-center gap-6 text-sm text-body">
-      <a href="/#projects" class="transition hover:text-accent">
+      <a href="/projects" class="transition hover:text-accent">
         Projects
       </a>
-      <a href="/#about" class="transition hover:text-accent">
-        About
-      </a>
+      <!-- About, with a dropdown to "& More" on hover or keyboard focus -->
+      <div class="group relative">
+        <a
+          href="/#about"
+          aria-haspopup="true"
+          class="inline-flex items-center gap-1 transition hover:text-accent group-focus-within:text-accent"
+        >
+          About
+          <svg
+            class="hidden h-3 w-3 transition group-hover:rotate-180 group-focus-within:rotate-180 sm:block"
+            viewBox="0 0 12 12"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <path d="M3 4.5 6 7.5 9 4.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+
+        <!-- pt-3 bridges the gap so the menu doesn't close on the way down -->
+        <div
+          class="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3 opacity-0 transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
+        >
+          <div class="w-48 overflow-hidden rounded-lg border border-border bg-surface py-1.5 shadow-lg">
+            <a href="/#about" class="block px-4 py-2 transition hover:bg-surface-alt hover:text-accent focus:bg-surface-alt focus:text-accent focus:outline-none">
+              About Me
+            </a>
+            <a href="/more" class="block px-4 py-2 transition hover:bg-surface-alt hover:text-accent focus:bg-surface-alt focus:text-accent focus:outline-none">
+              & More
+              <span class="mt-0.5 block text-xs text-muted">Music, art, reviews, fitness</span>
+            </a>
+          </div>
+        </div>
+      </div>
       <a href="/resume" class="transition hover:text-accent">
         Resume
       </a>

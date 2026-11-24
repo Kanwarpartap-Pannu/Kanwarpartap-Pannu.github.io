@@ -1,0 +1,55 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SectionTile from "../../components/more/SectionTile.astro";
+import { MORE_SECTIONS, getSectionEntries } from "../../lib/more";
+
+const sections = await Promise.all(
+  MORE_SECTIONS.map(async (section) => ({
+    section,
+    entries: await getSectionEntries(section.key),
+  })),
+);
+---
+
+<Layout
+  title="& More | Kanwar Pannu"
+  description="Music, art, book and film reviews, and DIY projects: a little more about life beyond engineering."
+>
+  <main class="mx-auto max-w-6xl px-6 py-20">
+
+    <a
+      href="/#about"
+      class="mb-16 inline-block text-sm text-muted transition hover:text-accent"
+    >
+      ← Back to About
+    </a>
+
+    <section class="mb-14">
+      <p class="mb-5 font-mono text-sm tracking-wide text-accent">
+        BEYOND ENGINEERING
+      </p>
+
+      <h1 class="mb-6 text-5xl font-bold tracking-tight text-heading md:text-7xl">
+        & More<span class="text-accent">.</span>
+      </h1>
+
+      <p class="max-w-2xl text-lg leading-relaxed text-body">
+        There's more to life than circuits and code. This is where I share
+        the music I'm learning, things I draw, books and movies I've enjoyed,
+        and the projects my brother and I get up to.
+      </p>
+    </section>
+
+    <div class="grid gap-6 md:grid-cols-2">
+      {sections.map(({ section, entries }, index) => (
+        <SectionTile
+          section={section}
+          entries={entries}
+          index={index}
+          wide={sections.length % 2 === 1 && index === sections.length - 1}
+        />
+      ))}
+    </div>
+
+  </main>
+</Layout>

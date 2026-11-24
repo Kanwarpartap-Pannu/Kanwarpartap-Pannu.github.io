@@ -59,6 +59,13 @@ const projects = (await getCollection("projects"))
   I enjoy turning ideas into working systems, from RTL to silicon.
 </p>
 
+<p class="mt-6 inline-flex items-start gap-2.5 rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-heading">
+  <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-emerald-600" aria-hidden="true"></span>
+  <span>
+    Open to entry-level <span class="font-semibold">RTL design, ASIC, and design verification</span> roles in Canada and the US.
+  </span>
+</p>
+
       <div class="mt-10 flex flex-wrap items-center gap-4">
         <a
           href="#projects"
@@ -109,11 +116,13 @@ const projects = (await getCollection("projects"))
 <!-- Featured Projects + About Me -->
 <div class="mx-auto grid max-w-6xl gap-16 px-6 py-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-12">
 
-  <!-- LEFT: Featured Projects -->
-  <section id="projects" class="min-w-0">
+  <!-- LEFT: Featured Projects
+       On large screens this column takes the height of About Me
+       (h-0 + min-h-full) and the cards scroll inside it. -->
+  <section id="projects" class="min-w-0 lg:flex lg:h-0 lg:min-h-full lg:flex-col">
     <SectionTitle number="01" title="Featured Projects" />
 
-    <div class="mt-8 grid gap-6">
+    <div class="projects-scroll mt-8 grid gap-6 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:px-1 lg:pb-10 lg:pt-1">
       <!-- Keep your existing ProjectCard components here -->
 	 <div class="grid gap-6 md:grid-cols-1">
           {projects.map((project) => (
@@ -124,14 +133,22 @@ const projects = (await getCollection("projects"))
               tags={project.data.tags}
               link={`/projects/${project.id}`}
               image={project.data.image}
+              status={project.data.status}
             />
           ))}
         </div>
     </div>
+
+    <a
+      href="/projects"
+      class="mt-6 inline-flex font-semibold text-accent transition hover:text-accent-hover"
+    >
+      View all projects →
+    </a>
   </section>
 
   <!-- RIGHT: About Me -->
-  <section id="about" class="min-w-0 lg:sticky lg:top-28 lg:self-start">
+  <section id="about" class="min-w-0">
     <SectionTitle number="02" title="About Me" />
 
     <div class="mt-8">
@@ -143,49 +160,36 @@ const projects = (await getCollection("projects"))
 
 <div class="space-y-5 text-body leading-7">
   <p>
-    My journey in computer engineering has taken me through a range of
-    areas, from researching novel AI learning algorithms to designing
-    and implementing hardware systems. While I've enjoyed exploring
-    different fields, my main interests lie in <span class="font-semibold text-heading">
-      computer architecture and digital design.
-    </span>
+    I'm drawn to the layer where software meets silicon: how an architectural idea becomes RTL, how that RTL is proven correct, and how it finally turns into gates and layout. My main interests are <span class="font-semibold text-heading">computer architecture and digital design</span>.
   </p>
 
   <p>
-    I've designed a RISC-V processor from scratch, implemented a
-    research-based cache architecture in SystemVerilog to improve
-    cache eviction efficiency, and developed a custom accelerator
-    for a spiking neural network. I've also worked in a team to
-    take a TPU design from RTL to physical layout and explored
-    analog circuit design through an AI-powered ECG detection project.
+    I started in research, spending two years in York University's neuromorphics group designing spiking neural network algorithms for low-power AI. That work led me to hardware, where I've since built a pipelined RISC-V core, a predictable last-level cache from a research paper, and a spiking CNN accelerator, and helped a team take a TPU from RTL to GDS.
   </p>
 
   <p>
-    I enjoy understanding how computing systems work at every level,
-    from architectural decisions down to the circuits that bring
-    them to life.
+    Across these projects, I've learned that a design is only as good as its verification. I write golden models, self-checking testbenches, and co-simulation flows alongside the RTL, not after it.
   </p>
 
-<p class="mt-5 leading-7 text-body">
-  I encourage you to explore some of my featured projects to get a
-  closer look at what I've been working on. Outside of engineering,
-  I enjoy music, playing guitar, drawing, and reading. If you're
-  curious about what keeps me busy beyond hardware, feel free to <a
-    href="/more"
-    class="font-semibold text-accent transition hover:text-accent-hover"
-  >
-    click and learn more about me↗.
-  </a> Otherwise, take a look at my resume to learn more about my experience and technical background!
-</p>
+  <p>
+    Outside engineering, I enjoy music, playing guitar, drawing, and reading.
+  </p>
 
-<div class="mt-6 flex flex-wrap gap-6">
-  <a
-    href="/resume"
-    class="font-semibold text-accent transition hover:text-accent-hover"
-  >
-    View My Resume ↗
-  </a>
-</div>
+  <div class="flex flex-wrap gap-x-6 gap-y-2 pt-1">
+    <a
+      href="/resume"
+      class="font-semibold text-accent transition hover:text-accent-hover"
+    >
+      View My Resume ↗
+    </a>
+
+    <a
+      href="/more"
+      class="font-semibold text-accent transition hover:text-accent-hover"
+    >
+      More About Me ↗
+    </a>
+  </div>
 
 </div>
     </div>
