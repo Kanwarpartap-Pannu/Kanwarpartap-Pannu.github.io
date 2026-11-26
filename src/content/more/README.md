@@ -85,7 +85,20 @@ display: spread
 maxCards: 6
 ```
 
-Whichever style you pick, the post's own page shows its photos in the same gallery as the engineering project pages: one photo at a time with ← → arrows, the caption underneath, a row of thumbnails, and a click to view it full screen. A photo without a caption shows the post title instead.
+### How photos appear on the post's own page
+
+Whichever `display` you pick, the post's page shows **every** photo. Choose how with `pageLayout`:
+
+| `pageLayout` | On the post's page |
+|---|---|
+| `gallery` (the default, no line needed) | One photo at a time, like the engineering project pages: ← → arrows, the caption underneath, a row of thumbnails, and click to view full screen. |
+| `collage` | All photos at once in a collage, each keeping its own shape, with captions underneath. Click any photo to view it full screen, with arrows, arrow keys, swipe, and Esc to close. |
+
+```yaml
+pageLayout: collage
+```
+
+A photo without a caption shows the post title instead (gallery) or no caption (collage).
 
 ## Extra fields for each section
 
@@ -108,7 +121,7 @@ medium: "Charcoal on paper"   # shown under the title
 
 ### Books & Film (`reviews/`)
 
-A good layout for reviews: put the poster or book cover first and any stills after it, with `display: cover`. See `reviews/swades.md` for a template. The page shows a **Rating** section automatically from the single `rating` field (or "Not rated yet"), followed by whatever you write under `## Review`.
+A good layout for reviews: put the poster or book cover first and any stills after it, with `display: cover`. For **movies and TV series**, the poster appears only on the collage card: the review page's gallery shows just the stills after it (and no gallery at all if there are none). Book covers still appear on the page. See `reviews/swades.md` for a template. The page shows a **Rating** section automatically from the single `rating` field (or "Not rated yet"), followed by whatever you write under `## Review`.
 
 ```yaml
 kind: book                    # required: book, movie, or series (TV series)

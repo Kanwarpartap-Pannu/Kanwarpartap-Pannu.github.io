@@ -168,3 +168,11 @@
     scrollbar-color: var(--site-border) transparent;
   }
 }
+
+/* Featured projects swipe row on phones and tablets: slim scrollbar */
+@media (max-width: 1023px) {
+  .projects-row {
+    scrollbar-width: thin;
+    scrollbar-color: var(--site-border) transparent;
+  }
+}

@@ -55,6 +55,10 @@ const moreBase = ({ image }: Pick<SchemaContext, "image">) => {
     //   cover  = one card showing only the first photo
     // Whichever you pick, the post's own page shows every photo.
     display: z.enum(["stack", "spread", "cover"]).default("stack"),
+    // How the photos are shown on the post's own page:
+    //   gallery = one photo at a time with arrows and thumbnails (default)
+    //   collage = all photos at once in a collage; click one to view full screen
+    pageLayout: z.enum(["gallery", "collage"]).default("gallery"),
     // For `spread`: the most cards to show; the last one says "+N more".
     maxCards: z.number().int().min(1).default(4),
     video: z.string().url().optional(),

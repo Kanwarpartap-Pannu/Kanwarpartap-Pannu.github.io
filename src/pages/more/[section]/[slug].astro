@@ -5,6 +5,7 @@ import Layout from "../../../layouts/Layout.astro";
 import StarRating from "../../../components/more/StarRating.astro";
 import SampleBadge from "../../../components/more/SampleBadge.astro";
 import ProjectGallery from "../../../components/ProjectGallery.astro";
+import PhotoCollage from "../../../components/more/PhotoCollage.astro";
 import {
   MORE_SECTIONS,
   REVIEW_KINDS,
@@ -40,7 +41,11 @@ const data = entry.data as MoreEntry["data"] & {
 };
 
 const videoId = youtubeId(data.video);
-const photos = getPhotos(entry);
+// Movie and TV reviews: the first image is the poster, which is shown on the
+// collage card. The page shows only the stills that follow it.
+const allPhotos = getPhotos(entry);
+const posterOnCardOnly = section.key === "reviews" && (data.kind === "movie" || data.kind === "series");
+const photos = posterOnCardOnly ? allPhotos.slice(1) : allPhotos;
 // Resized web versions for the gallery (same scroller as the project pages).
 // The caption under each photo is its `caption`, or the post title.
 const gallery = await Promise.all(
@@ -110,9 +115,14 @@ const details = [
       </div>
     ) : null}
 
-    {!videoId && gallery.length > 0 && (
+    <!-- Photos: one at a time (gallery) or all at once (collage), per `pageLayout` -->
+    {!videoId && photos.length > 0 && (
       <div class="mb-10">
-        <ProjectGallery images={gallery} />
+        {data.pageLayout === "collage" ? (
+          <PhotoCollage photos={photos} title={data.title} />
+        ) : (
+          <ProjectGallery images={gallery} />
+        )}
       </div>
     )}
 
@@ -140,8 +150,12 @@ const details = [
     <!-- With a video at the top, the photos go below the write-up -->
     {videoId && gallery.length > 0 && (
       <section class="mt-12">
-        <h2 class="mb-2 text-2xl font-bold text-heading">Photos</h2>
-        <ProjectGallery images={gallery} />
+        <h2 class="mb-5 text-2xl font-bold text-heading">Photos</h2>
+        {data.pageLayout === "collage" ? (
+          <PhotoCollage photos={photos} title={data.title} />
+        ) : (
+          <ProjectGallery images={gallery} />
+        )}
       </section>
     )}
 

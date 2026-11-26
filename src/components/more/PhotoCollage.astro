@@ -1,0 +1,147 @@
+---
+// `pageLayout: collage` — all of a post's photos at once, in a collage.
+// Each photo keeps its own shape (nothing is cropped). Clicking a photo
+// opens a full-screen viewer: arrows / arrow keys / swipe to move,
+// Esc or ✕ to close.
+import { Image } from "astro:assets";
+import type { Photo } from "../../lib/more";
+
+interface Props {
+  photos: Photo[];
+  title: string;
+}
+
+const { photos, title } = Astro.props;
+const altFor = (photo: Photo, i: number) => photo.caption ?? `${title}, photo ${i + 1}`;
+
+// Fewer photos -> fewer, wider columns
+const columnClass =
+  photos.length === 1 ? "columns-1" : photos.length === 2 ? "columns-1 sm:columns-2" : "columns-1 sm:columns-2 lg:columns-3";
+---
+
+<div data-photo-collage>
+  <div class:list={["gap-4", columnClass]}>
+    {photos.map((photo, i) => (
+      <figure class="mb-4 break-inside-avoid">
+        <button
+          type="button"
+          data-open={i}
+          class="block w-full cursor-zoom-in overflow-hidden rounded-xl border border-border bg-surface transition hover:border-accent hover:shadow-md"
+          aria-label={`View ${altFor(photo, i)} full screen`}
+        >
+          <Image
+            src={photo.src}
+            alt={altFor(photo, i)}
+            widths={[480, 800, 1200]}
+            sizes={photos.length > 1 ? "(min-width: 896px) 440px, (min-width: 640px) 50vw, 100vw" : "(min-width: 896px) 896px, 100vw"}
+            class="block h-auto w-full"
+          />
+        </button>
+        {photo.caption && <figcaption class="mt-2 text-sm text-muted">{photo.caption}</figcaption>}
+      </figure>
+    ))}
+  </div>
+
+  <!-- Full-screen viewer -->
+  <dialog
+    data-viewer
+    class="m-0 h-dvh max-h-none w-screen max-w-none bg-black/95 p-0 text-white backdrop:bg-black/80"
+    aria-label={`${title} photos`}
+  >
+    <div class="relative flex h-full flex-col">
+      <div class="flex items-center justify-between px-4 py-3 text-sm">
+        <span data-counter class="font-mono text-white/80">1 / {photos.length}</span>
+        <button type="button" data-close aria-label="Close" class="grid h-10 w-10 place-items-center rounded-full text-2xl hover:bg-white/10">✕</button>
+      </div>
+
+      <div
+        data-track
+        class="flex min-h-0 flex-1 snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {photos.map((photo, i) => (
+          <figure class="flex h-full w-full shrink-0 snap-center flex-col items-center justify-center px-4 pb-6">
+            <Image
+              src={photo.src}
+              alt={altFor(photo, i)}
+              widths={[800, 1600]}
+              sizes="100vw"
+              loading="lazy"
+              class="min-h-0 w-auto max-w-full flex-1 object-contain"
+            />
+            {photo.caption && <figcaption class="mt-3 text-center text-sm text-white/80">{photo.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+
+      {photos.length > 1 && (
+        <>
+          <button type="button" data-prev aria-label="Previous photo" class="viewer-arrow left-3">‹</button>
+          <button type="button" data-next aria-label="Next photo" class="viewer-arrow right-3">›</button>
+        </>
+      )}
+    </div>
+  </dialog>
+</div>
+
+<style>
+  .viewer-arrow {
+    position: absolute;
+    top: 50%;
+    display: grid;
+    height: 3rem;
+    width: 3rem;
+    place-items: center;
+    border-radius: 9999px;
+    background: rgb(255 255 255 / 0.12);
+    font-size: 2rem;
+    line-height: 1;
+    transform: translateY(-50%);
+  }
+  .viewer-arrow:hover {
+    background: rgb(255 255 255 / 0.25);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-photo-collage]").forEach((collage) => {
+    const dialog = collage.querySelector<HTMLDialogElement>("[data-viewer]")!;
+    const track = dialog.querySelector<HTMLElement>("[data-track]")!;
+    const counter = dialog.querySelector<HTMLElement>("[data-counter]")!;
+    const total = track.children.length;
+
+    const current = () => Math.round(track.scrollLeft / track.clientWidth);
+    const show = (index: number, smooth = true) => {
+      const target = (index + total) % total; // wraps around at the ends
+      track.scrollTo({ left: target * track.clientWidth, behavior: smooth ? "smooth" : "instant" });
+    };
+
+    collage.querySelectorAll<HTMLElement>("[data-open]").forEach((button) => {
+      button.addEventListener("click", () => {
+        dialog.showModal();
+        document.body.style.overflow = "hidden";
+        show(Number(button.dataset.open), false);
+      });
+    });
+
+    dialog.querySelector("[data-close]")?.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("close", () => (document.body.style.overflow = ""));
+    dialog.querySelector("[data-prev]")?.addEventListener("click", () => show(current() - 1));
+    dialog.querySelector("[data-next]")?.addEventListener("click", () => show(current() + 1));
+
+    dialog.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") show(current() - 1);
+      if (event.key === "ArrowRight") show(current() + 1);
+    });
+
+    // Clicking the dark area around a photo closes the viewer
+    track.addEventListener("click", (event) => {
+      if (!(event.target instanceof HTMLImageElement)) dialog.close();
+    });
+
+    track.addEventListener(
+      "scroll",
+      () => (counter.textContent = `${current() + 1} / ${total}`),
+      { passive: true },
+    );
+  });
+</script>

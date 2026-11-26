@@ -123,18 +123,25 @@ const projects = (await getCollection("projects"))
     <SectionTitle number="01" title="Featured Projects" />
 
     <div class="projects-scroll mt-8 grid gap-6 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:px-1 lg:pb-10 lg:pt-1">
-      <!-- Keep your existing ProjectCard components here -->
-	 <div class="grid gap-6 md:grid-cols-1">
+      <!-- Phones and tablets: a sideways swipe row. Each card is a bit
+           narrower than the screen so the next one peeks in from the right.
+           Desktop (lg): a normal vertical list inside the scroll box. -->
+      <div
+        class="projects-row -mx-6 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-3 lg:mx-0 lg:grid lg:snap-none lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0"
+        aria-label="Featured projects"
+      >
           {projects.map((project) => (
-            <ProjectCard
-              title={project.data.title}
-              category={project.data.category}
-              description={project.data.description}
-              tags={project.data.tags}
-              link={`/projects/${project.id}`}
-              image={project.data.image}
-              status={project.data.status}
-            />
+            <div class="w-[85%] shrink-0 snap-start sm:w-[60%] md:w-[46%] lg:w-auto [&>a]:h-full">
+              <ProjectCard
+                title={project.data.title}
+                category={project.data.category}
+                description={project.data.description}
+                tags={project.data.tags}
+                link={`/projects/${project.id}`}
+                image={project.data.image}
+                status={project.data.status}
+              />
+            </div>
           ))}
         </div>
     </div>
